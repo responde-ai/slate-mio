@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
+import '../../style/Menu.scss';
+
 class Menu extends Component {
   render(){
-    return (<div>MENU AQUI</div>)
+    return (<div className="mio-menu">MENU AQUI</div>)
   }
 }
 

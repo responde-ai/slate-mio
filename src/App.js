@@ -3,7 +3,7 @@ import Header from './components/ui/Header';
 import Menu from './components/ui/Menu';
 import Page from './components/ui/Page';
 
-import './App.css';
+import './App.scss';
 
 class App extends Component {
   render(){

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Editor } from 'slate-react';
 import initialValue from '../../slate/initialValue';
 
-import '../../style/Page.css';
+import '../../style/Page.scss';
 
 class Page extends Component {
   state = { value: initialValue }

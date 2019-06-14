@@ -1,8 +1,20 @@
 import React, { Component } from 'react';
 
+import '../../style/Header.scss';
+
 class Header extends Component {
+  state = { value: "Título Aqui" };
+
+  onChange(event){
+    this.setState({ value: event.target.value });
+  }
+
   render(){
-    return (<div>HEADER</div>)
+    return (
+      <div className="mio-header">
+        <input type="text" value={this.state.value} onChange={this.onChange.bind(this)}/>
+      </div>
+    );
   }
 }
 
