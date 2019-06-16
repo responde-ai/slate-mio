@@ -1,6 +1,7 @@
 @import 'colors';
 
 .mio-menu {
+  z-index: 2;
   display: flex;
   position: absolute;
   border-radius: 10px;

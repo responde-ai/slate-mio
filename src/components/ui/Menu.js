@@ -36,11 +36,11 @@ class Menu extends Component {
     const { editorValue } = this.props; 
     const { selection, fragment } = editorValue;
 
-    return selection.isCollapsed || fragment.text === '';
+    return selection.isBlurred || selection.isCollapsed || fragment.text === '';
   }
 
   getNewHidestyle(){
-    return { display: 'none' };
+    return { visibility: 'hidden' };
   }
 
   getNewShowStyle(){
