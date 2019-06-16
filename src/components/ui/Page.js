@@ -4,7 +4,7 @@ import initialValue from '../../slate/initialValue';
 import plugins from '../../slate/plugins';
 import renderMark from '../../slate/marks';
 
-import '../../style/Page.scss';
+import '../../assets/stylesheets/Page.scss';
 
 class Page extends Component {
   state = { value: initialValue }
