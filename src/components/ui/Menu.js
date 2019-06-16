@@ -14,18 +14,36 @@ import MenuItem from './MenuItem';
 
 class Menu extends Component {
   updateMenu(){
-    const { editorValue } = this.props;
+    if(!this.menuRef) return;
 
-    if (editorValue.selection.isCollapsed || !this.menuRef) return;
+    if(this.isSelectionEmpty()) this.hideMenu();
+    else this.showMenu();
+  }
 
-    this.updateMenuStyle();
+  hideMenu(){
+    this.props.updateMenuState(this.getNewHidestyle());
+  }
+
+  showMenu(){
+    this.props.updateMenuState(this.getNewShowStyle());
   }
 
   updateMenuStyle(){
-    this.props.updateMenuState(this.getNewStyle());
+    this.props.updateMenuState(this.getNewShowStyle());
   }
 
-  getNewStyle(){
+  isSelectionEmpty(){
+    const { editorValue } = this.props; 
+    const { selection, fragment } = editorValue;
+
+    return selection.isCollapsed || fragment.text === '';
+  }
+
+  getNewHidestyle(){
+    return { display: 'none' };
+  }
+
+  getNewShowStyle(){
     const selectionRect = getSelectionRectangle();
     const top = `${this.getMenuTopPosition(selectionRect)}px`;
     const left = `${this.getMenuLeftPosition(selectionRect)}px`;
@@ -37,7 +55,6 @@ class Menu extends Component {
 
   getMenuTopPosition(rect){
     const menuMargin = 15;
-
     return rect.top + getScrollAlongYAxis() - this.getMenuHeight() - menuMargin;
   }
 
@@ -53,8 +70,8 @@ class Menu extends Component {
     return this.menuRef.offsetWidth;
   }
 
-  componentWillReceiveProps(nextProps){
-    if (nextProps.editorValue != this.props.editorValue) this.updateMenu();
+  componentDidUpdate(prevProps){
+    if (prevProps.editorValue != this.props.editorValue) this.updateMenu();
   }
 
   render(){
