@@ -14,9 +14,14 @@ import MenuItem from './MenuItem';
 
 class Menu extends Component {
   mouseOnMenu = false;
+  updatingFromMenu = false;
 
   updateMenu(){
     if(!this.menuRef) return;
+    if (this.updatingFromMenu){
+      this.updatingFromMenu = false;
+      return;
+    }
 
     if(this.isInvalidSelection()) this.hideMenu();
     else this.showMenu();
@@ -84,9 +89,15 @@ class Menu extends Component {
     return this.props.editorRef.current;
   }
 
-  boldButtonOnClick(event){
-    event.preventDefault();
-    this.getEditor().toggleMark('bold');
+  toggleMark(type){
+    return event => {
+      const editor = this.getEditor();
+
+      event.preventDefault();
+      editor.toggleMark(type);
+      editor.focus();
+      this.updatingFromMenu = true;
+    }
   }
 
   onMouseEnter(event){
@@ -110,10 +121,25 @@ class Menu extends Component {
         onMouseEnter={this.onMouseEnter.bind(this)}
         onMouseLeave={this.onMouseLeave.bind(this)}
       >
-        <MenuItem type="bold" iconSource={boldIcon} onClick={this.boldButtonOnClick.bind(this)}/>
-        <MenuItem type="italic" iconSource={italicIcon}/>
-        <MenuItem type="underline" iconSource={underlineIcon}/>
-        <MenuItem type="strikethrough" iconSource={strikethroughIcon}/>
+        <MenuItem type="bold"
+          iconSource={boldIcon}
+          onClick={this.toggleMark("bold")}
+        />
+        <MenuItem
+          type="italic"
+          iconSource={italicIcon}
+          onClick={this.toggleMark("italic")}
+        />
+        <MenuItem
+          type="underline"
+          iconSource={underlineIcon}
+          onClick={this.toggleMark("underline")}
+        />
+        <MenuItem
+          type="strikethrough"
+          iconSource={strikethroughIcon}
+          onClick={this.toggleMark("strikethrough")}
+        />
         <div className="mio-menu-arrow"></div>
       </div>
     );
