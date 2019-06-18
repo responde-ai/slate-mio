@@ -13,10 +13,12 @@ import '../../assets/stylesheets/Menu.scss';
 import MenuItem from './MenuItem';
 
 class Menu extends Component {
+  mouseOnMenu = false;
+
   updateMenu(){
     if(!this.menuRef) return;
 
-    if(this.isSelectionEmpty()) this.hideMenu();
+    if(this.isInvalidSelection()) this.hideMenu();
     else this.showMenu();
   }
 
@@ -32,11 +34,19 @@ class Menu extends Component {
     this.props.updateMenuState(this.getNewShowStyle());
   }
 
-  isSelectionEmpty(){
+  isInvalidSelection(){
     const { editorValue } = this.props; 
     const { selection, fragment } = editorValue;
 
-    return selection.isBlurred || selection.isCollapsed || fragment.text === '';
+    return this.isSelectionBlurredOutOfMenu() ||
+      selection.isCollapsed ||
+      fragment.text === '';
+  }
+
+  isSelectionBlurredOutOfMenu(){
+    const selection = this.props.editorValue.selection;
+
+    return !this.mouseOnMenu && selection.isBlurred;
   }
 
   getNewHidestyle(){
@@ -70,14 +80,37 @@ class Menu extends Component {
     return this.menuRef.offsetWidth;
   }
 
+  getEditor(){
+    return this.props.editorRef.current;
+  }
+
+  boldButtonOnClick(event){
+    event.preventDefault();
+    this.getEditor().toggleMark('bold');
+  }
+
+  onMouseEnter(event){
+    this.mouseOnMenu = true;
+  }
+
+  onMouseLeave(event){
+    this.mouseOnMenu = false;
+  }
+
   componentDidUpdate(prevProps){
-    if (prevProps.editorValue != this.props.editorValue) this.updateMenu();
+    if (prevProps.editorValue !== this.props.editorValue) this.updateMenu();
   }
 
   render(){
     return (
-      <div className="mio-menu" style={this.props.menuStyle} ref={ref => this.menuRef = ref}>
-        <MenuItem type="bold" iconSource={boldIcon}/>
+      <div
+        className="mio-menu"
+        style={this.props.menuStyle}
+        ref={ref => this.menuRef = ref}
+        onMouseEnter={this.onMouseEnter.bind(this)}
+        onMouseLeave={this.onMouseLeave.bind(this)}
+      >
+        <MenuItem type="bold" iconSource={boldIcon} onClick={this.boldButtonOnClick.bind(this)}/>
         <MenuItem type="italic" iconSource={italicIcon}/>
         <MenuItem type="underline" iconSource={underlineIcon}/>
         <MenuItem type="strikethrough" iconSource={strikethroughIcon}/>

@@ -24,6 +24,7 @@ class Page extends Component {
           value={editorValue}
           onChange={this.onChange}
           renderMark={renderMark}
+          ref={this.props.editorRef}
         />
       </div>
     );
