@@ -12,7 +12,6 @@ const codePlugin = BlockHotKey({ key: '1', type: 'code'});
 
 const plugins = [
   SoftBreakPlugin,
-  PrismPlugin,
   boldPlugin,
   italicPlugin,
   underlinePlugin,
