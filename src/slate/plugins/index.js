@@ -1,3 +1,4 @@
+import SoftBreak from './SoftBreak';
 import MarkHotKey from './MarkHotKey';
 import BlockHotKey from './BlockHotKey';
 
@@ -9,6 +10,7 @@ const strikethroughPlugin = MarkHotKey({ key: 's', type: 'strikethrough'});
 const codePlugin = BlockHotKey({ key: '1', type: 'code'});
 
 const plugins = [
+  SoftBreak(),
   boldPlugin,
   italicPlugin,
   underlinePlugin,
