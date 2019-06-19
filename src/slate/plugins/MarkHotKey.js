@@ -1,21 +1,7 @@
-const _onKeyDown = options => (event, editor, next) => {
-  if (!_isTargetKey(event, options.key)) return next();
-
-  event.preventDefault();
-  editor.toggleMark(options.type);
-}
-
-const _isTargetKey = (event, key) => {
-  const mod = _getPlatformCommandKey(event);
-  return mod && event.key === key;
-};
-
-const _isMacOS = () => /Mac/.test(navigator.platform);
-
-const _getPlatformCommandKey = (event) => _isMacOS ? event.metaKey : event.ctrlKey;
+import _onKeyDown from './_onKeyDown';
 
 function MarkHotKey(options){
-  return { onKeyDown: _onKeyDown(options) };
+  return { onKeyDown: _onKeyDown(options, "toggleMark") };
 }
 
 export default MarkHotKey;

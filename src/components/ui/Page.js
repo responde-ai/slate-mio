@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Editor } from 'slate-react';
 import plugins from '../../slate/plugins';
 import renderMark from '../../slate/marks';
+import renderBlock from '../../slate/blocks';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -24,6 +25,7 @@ class Page extends Component {
           value={editorValue}
           onChange={this.onChange}
           renderMark={renderMark}
+          renderBlock={renderBlock}
           ref={this.props.editorRef}
         />
       </div>
