@@ -2,7 +2,7 @@ const onKeyDown = (options, command) => (event, editor, next) => {
   if (!_isTargetKey(event, options.key)) return next();
 
   event.preventDefault();
-  editor[command](options.type);
+  editor[command]({ type: options.type, data: options.data });
 }
 
 const _isTargetKey = (event, key) => {

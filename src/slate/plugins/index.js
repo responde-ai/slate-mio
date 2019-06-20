@@ -8,7 +8,13 @@ const italicPlugin = MarkHotKey({ key: 'i', type: 'italic' });
 const underlinePlugin = MarkHotKey({ key: 'u', type: 'underline'});
 const strikethroughPlugin = MarkHotKey({ key: 's', type: 'strikethrough'});
 
-const codePlugin = BlockHotKey({ key: '1', type: 'code'});
+const codePlugin = BlockHotKey({
+  key: '1',
+  type: 'code',
+  data: {
+    language: "js",
+  }
+});
 
 const plugins = [
   SoftBreakPlugin,
