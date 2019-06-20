@@ -38,6 +38,22 @@
       line-height: 1.4;
       overflow-wrap: break-word;
       -webkit-user-modify: read-write-plaintext-only;  
+
+      .code-comment span{
+        opacity: .33;
+      }
+
+      .code-keyword {
+        font-weight: bold;
+      }
+
+      .code-punctuation span{
+        opacity: 0.75;
+      }
+
+      .code-tag span{
+        font-weight: bold;
+      }
     }
   }
 }

@@ -2,10 +2,7 @@ import React from 'react'
 
 function CodeKeyword(props) {
   return (
-    <span
-      {...props.attributes}
-      style={{ fontWeight: 'bold' }}
-    >
+    <span className="code-keyword" {...props.attributes}>
       {props.children}
     </span>
   );

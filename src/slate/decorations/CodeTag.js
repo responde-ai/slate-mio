@@ -2,10 +2,7 @@ import React from 'react'
 
 function CodeTag(props) {
   return (
-    <span
-      {...props.attributes}
-      style={{ fontWeight: 'bold' }}
-    >
+    <span className="code-tag" {...props.attributes} >
       {props.children}
     </span>
   );
