@@ -11,8 +11,8 @@ class CodeBlock extends Component {
     
     return (
       <div style={{position: 'relative'}}>
-        <pre>
-          <code {...this.props.attributes}>{this.props.children}</code>
+        <pre className={`language-${language}`}>
+          <code className={`language-${language}`} {...this.props.attributes}>{this.props.children}</code>
         </pre>
         <div
           contentEditable={false}
