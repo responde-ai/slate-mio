@@ -1,6 +1,6 @@
 import Prism from 'prismjs';
 
-const _getContent = (token) => {
+const _getContent = token => {
   if (typeof token === 'string') return token;
   if (typeof token.content === 'string') return token.content;
   return token.content.map(_getContent).join('');
@@ -30,8 +30,7 @@ const decorateNode = (node, editor, next) => {
 
     const [startText, startPath] = startEntry;
     const content = _getContent(token);
-    const newlines = content.split('\n').length - 1;
-    const length = content.length - newlines;
+    const length = content.length;
     const end = start + length;
 
     let available = startText.text.length - startOffset;
