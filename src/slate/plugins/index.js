@@ -1,8 +1,10 @@
+import EditCode from '@tildepage/slate-code-block';
 import CodeHighlight from './CodeHighlight';
 import SoftBreak from './SoftBreak';
 import MarkHotKey from './MarkHotKey';
 import BlockHotKey from './BlockHotKey';
 
+const EditCodePlugin = EditCode({ containerType: 'code', allowMarks: 'true' });
 const CodeHighlightPlugin = CodeHighlight();
 const SoftBreakPlugin = SoftBreak();
 const boldPlugin =  MarkHotKey({ key: 'b', type: 'bold' });
@@ -19,6 +21,7 @@ const codePlugin = BlockHotKey({
 });
 
 const plugins = [
+  EditCodePlugin,
   CodeHighlightPlugin,
   SoftBreakPlugin,
   boldPlugin,

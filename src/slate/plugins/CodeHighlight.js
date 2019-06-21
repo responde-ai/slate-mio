@@ -32,7 +32,8 @@ function CodeHighlight(options = {}){
 
         const [startText, startPath] = startEntry;
         const content = _getContent(token);
-        const length = content.length;
+        const newlines = content.split('\n').length - 1;
+        const length = content.length - newlines;
         const end = start + length;
 
         let available = startText.text.length - startOffset;
