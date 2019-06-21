@@ -1,0 +1,20 @@
+.mio-side-menu{
+  .mio-side-menu-plus-button {
+    img {
+      cursor: pointer;
+      height: 30px;
+      width: 30px;
+      padding: 10px;
+    }
+  
+    img:hover{
+      -webkit-animation:spin 0.5s linear forwards;
+      -moz-animation:spin 0.5s linear forwards;
+      animation:spin 0.5s linear forwards;
+    }
+  }
+}
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(45deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(45deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(45deg); transform:rotate(45deg); } }
