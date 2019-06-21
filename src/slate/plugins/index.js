@@ -1,7 +1,9 @@
+import CodeHighlight from './CodeHighlight';
 import SoftBreak from './SoftBreak';
 import MarkHotKey from './MarkHotKey';
 import BlockHotKey from './BlockHotKey';
 
+const CodeHighlightPlugin = CodeHighlight();
 const SoftBreakPlugin = SoftBreak();
 const boldPlugin =  MarkHotKey({ key: 'b', type: 'bold' });
 const italicPlugin = MarkHotKey({ key: 'i', type: 'italic' });
@@ -17,6 +19,7 @@ const codePlugin = BlockHotKey({
 });
 
 const plugins = [
+  CodeHighlightPlugin,
   SoftBreakPlugin,
   boldPlugin,
   italicPlugin,

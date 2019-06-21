@@ -4,7 +4,6 @@ import plugins from '../../slate/plugins';
 import renderMark from '../../slate/marks';
 import renderBlock from '../../slate/blocks';
 import renderDecoration from '../../slate/decorations';
-import decorateNode from '../../slate/services/decorateNode';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -29,7 +28,6 @@ class Page extends Component {
           renderMark={renderMark}
           renderBlock={renderBlock}
           renderDecoration={renderDecoration}
-          decorateNode={decorateNode}
           ref={this.props.editorRef}
         />
       </div>
