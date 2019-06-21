@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import '../../assets/stylesheets/MenuItem.scss';
+import '../assets/stylesheets/MenuItem.scss';
 
 class MenuItem extends Component {
   isTypeAnActiveMark(){

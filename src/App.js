@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Header from './components/ui/Header';
-import Menu from './components/ui/Menu';
-import Page from './components/ui/Page';
+import Header from './components/Header';
+import Menu from './components/Menu';
+import Page from './components/Page';
 
 import './App.scss';
 

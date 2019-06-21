@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Editor } from 'slate-react';
-import plugins from '../../slate/plugins';
-import renderMark from '../../slate/marks';
-import renderBlock from '../../slate/blocks';
-import renderDecoration from '../../slate/decorations';
+import plugins from '../slate/plugins';
+import renderMark from '../slate/marks';
+import renderBlock from '../slate/blocks';
+import renderDecoration from '../slate/decorations';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateEditorState } from '../../actions';
+import { updateEditorState } from '../actions';
 
-import '../../assets/stylesheets/Page.scss';
+import '../assets/stylesheets/Page.scss';
 
 class Page extends Component {
   onChange = ({ value }) => {

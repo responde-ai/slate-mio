@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import '../../assets/stylesheets/Header.scss';
+import '../assets/stylesheets/Header.scss';
 
 class Header extends Component {
   state = { value: "Título Aqui" };

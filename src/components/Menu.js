@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateMenuState } from '../../actions';
+import { updateMenuState } from '../actions';
 
-import boldIcon from '../../assets/icons/bold-icon.svg';
-import italicIcon from '../../assets/icons/italic-icon.svg';
-import underlineIcon from '../../assets/icons/underline-icon.svg';
-import strikethroughIcon from '../../assets/icons/strikethrough-icon.svg';
+import boldIcon from '../assets/icons/bold-icon.svg';
+import italicIcon from '../assets/icons/italic-icon.svg';
+import underlineIcon from '../assets/icons/underline-icon.svg';
+import strikethroughIcon from '../assets/icons/strikethrough-icon.svg';
 
-import '../../assets/stylesheets/Menu.scss';
+import '../assets/stylesheets/Menu.scss';
 import MenuItem from './MenuItem';
 
 class Menu extends Component {
