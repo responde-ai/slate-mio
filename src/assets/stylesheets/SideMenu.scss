@@ -1,8 +1,10 @@
 @import 'colors';
 
 .mio-side-menu{
+  position: absolute;
   display: flex;
-  padding: 10px;
+  padding: 20px 10px 0 10px;
+  opacity: 0.8;
 
   .mio-side-menu-plus-button {
     img {
