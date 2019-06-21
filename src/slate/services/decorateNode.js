@@ -24,7 +24,7 @@ const decorateNode = (node, editor, next) => {
   let endOffset = 0;
   let start = 0;
 
-  for (const token of tokens ){
+  for (const token of tokens){
     startEntry = endEntry;
     startOffset = endOffset;
 

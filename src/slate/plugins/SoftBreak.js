@@ -1,10 +1,12 @@
 function SoftBreak(options = {}) {
   return {
     onKeyDown(event, editor, next) {
-      if (event.key === 'Enter') {
-        editor.insertText('\n')
+      const { startBlock } = editor.value;
+
+      if (event.key === 'Enter' && startBlock.type === 'code') {
+        editor.insertText('\n');
       } else {
-        next()
+        next();
       }
     },
   }
