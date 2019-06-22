@@ -1,8 +1,9 @@
 import initialValue from '../slate/initialValue';
-import { EDITOR_UPDATE_VALUE } from '../actions/actionsTypes';
+import { EDITOR_UPDATE_VALUE, ON_EDITOR_KEY_UP } from '../actions/actionsTypes';
 
 const initialState = {
   value: initialValue,
+  keyCode: -1,
 };
 
 export const editorReducer = (state = initialState, action) => {
@@ -10,7 +11,12 @@ export const editorReducer = (state = initialState, action) => {
     case EDITOR_UPDATE_VALUE:
       return {
         ...state,
-        value: action.value
+        value: action.value,
+      };
+    case ON_EDITOR_KEY_UP:
+      return {
+        ...state,
+        keyCode: action.keyCode,
       };
     default:
       return state;

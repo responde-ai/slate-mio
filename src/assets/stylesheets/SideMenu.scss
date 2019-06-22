@@ -1,6 +1,6 @@
 @import 'colors';
 
-.mio-side-menu{
+.mio-side-menu {
   position: absolute;
   display: flex;
   padding: 20px 10px 0 10px;
@@ -13,28 +13,38 @@
       width: 40px;
       padding: 10px;
     }
+  }
+
+  .mio-side-menu-content {
+    display: none;
+
+    .mio-side-menu-item {
+      width: 40px;
+      height: 40px;
+      border-radius: 100px;
+      background: $black;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin: 10px;
   
-    img:hover{
-      -webkit-animation:spin 0.5s linear forwards;
-      -moz-animation:spin 0.5s linear forwards;
-      animation:spin 0.5s linear forwards;
+      img {
+        cursor: pointer;
+        height: 18px;
+        width: 18px;
+      }
     }
   }
 
-  .mio-side-menu-item {
-    width: 40px;
-    height: 40px;
-    border-radius: 100px;
-    background: $black;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    margin: 10px;
-
-    img {
-      cursor: pointer;
-      height: 18px;
-      width: 18px;
+  .mio-side-menu.expanded {
+    .mio-side-menu-content {
+      display: flex;
+      
+      img {
+        -webkit-animation:spin 0.5s linear forwards;
+        -moz-animation:spin 0.5s linear forwards;
+        animation:spin 0.5s linear forwards;
+      }
     }
   }
 }

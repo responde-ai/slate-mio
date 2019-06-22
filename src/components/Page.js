@@ -7,7 +7,7 @@ import renderDecoration from '../slate/decorations';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateEditorState } from '../actions';
+import { updateEditorState, onEditorKeyUp } from '../actions';
 
 import '../assets/stylesheets/Page.scss';
 
@@ -16,12 +16,17 @@ class Page extends Component {
     this.props.updateEditorState(value);
   }
 
+  onKeyUp(event){
+    this.props.onEditorKeyUp(event.keyCode);
+  }
+
   render(){
     const { editorValue } = this.props;
 
     return (
       <div className="mio-page">
         <Editor
+          onKeyUp={this.onKeyUp.bind(this)}
           plugins={plugins}
           value={editorValue}
           onChange={this.onChange}
@@ -40,7 +45,7 @@ const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch => (
-  bindActionCreators({ updateEditorState }, dispatch)
+  bindActionCreators({ updateEditorState, onEditorKeyUp }, dispatch)
 );
 
 export default connect(mapStateToProps, mapDispatchToProps)(Page);
