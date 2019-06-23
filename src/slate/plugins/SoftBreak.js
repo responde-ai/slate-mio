@@ -5,6 +5,8 @@ function SoftBreak(options = {}) {
 
       if (event.key === 'Enter' && startBlock.type === 'code') {
         editor.insertText('\n');
+      } else if (event.key === 'Enter' && startBlock.type !== 'paragraph') {
+        editor.insertBlock('paragraph');
       } else {
         next();
       }
