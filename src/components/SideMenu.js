@@ -16,6 +16,8 @@ import {
 
 import { getVisibleSelectionRect } from 'get-selection-range';
 
+import titleIcon from '../assets/icons/title-icon.svg';
+
 import '../assets/stylesheets/SideMenu.scss';
 
 class SideMenu extends Component {
@@ -167,7 +169,12 @@ class SideMenu extends Component {
   }
 
   onTitleButtonClick(event){
-    return;
+    const editor = this.props.editorRef.current;
+    if (!editor) return;
+
+    event.preventDefault();
+    editor.toggleBlock("header");
+    editor.focus();
   }
 
   onClick(event){
@@ -194,7 +201,11 @@ class SideMenu extends Component {
       >
         <SideMenuPlusButton/>
         <div className="mio-side-menu-content">
-          <SideMenuItem onClick={this.onTitleButtonClick.bind(this)}/>
+          <SideMenuItem
+            type="header"
+            iconSource={titleIcon}
+            onClick={this.onTitleButtonClick.bind(this)}
+          />
         </div>
       </div>
     );

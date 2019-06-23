@@ -3,6 +3,7 @@
 .mio-side-menu {
   position: absolute;
   display: flex;
+  z-index: 2;
   padding: 20px 10px 0 10px;
   opacity: 0.8;
 

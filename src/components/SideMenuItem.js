@@ -1,13 +1,13 @@
 import React from 'react';
 
-import titleIcon from '../assets/icons/title-icon.svg';
+function SideMenuItem(props){
+  const { type, iconSource, onClick } = props;
 
-function SideMenuItem(){
   return (
-    <div className="mio-side-menu-item">
+    <div className={`mio-side-menu-item ${type}`} onClick={onClick}>
       <img
-          src={titleIcon}
-          alt={`Side menu plus button`}
+          src={iconSource}
+          alt={`Side menu ${type} button`}
       />
     </div>
   );
