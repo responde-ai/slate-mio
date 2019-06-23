@@ -40,6 +40,18 @@
     text-decoration: line-through;
   }
 
+  .image-container{
+    img { 
+      display: block;
+      max-width: 100%;
+      max-height: 20em;
+    }
+
+    img:focus {
+      box-shadow: 0 0 0 2px blue;
+    }
+  }
+
   @import 'codeHighlight';
   @import 'codeLineNumbers';
 }

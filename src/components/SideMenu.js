@@ -17,6 +17,7 @@ import {
 import { getVisibleSelectionRect } from 'get-selection-range';
 
 import titleIcon from '../assets/icons/title-icon.svg';
+import imageIcon from '../assets/icons/image-icon.svg';
 
 import '../assets/stylesheets/SideMenu.scss';
 
@@ -177,6 +178,19 @@ class SideMenu extends Component {
     editor.focus();
   }
 
+  uploadImage(event){
+    if (event.target.files.length === 0) return; 
+    
+    const file = event.target.files[0];
+    const editor = this.props.editorRef.current;
+
+    editor.insertImageFromFile(file);
+  }
+
+  onImageButtonClick(event){
+    this.upload.click(event);
+  }
+
   onClick(event){
     const { sideMenuIsExpanded, updateSideMenuExpandedStatus } = this.props;
     updateSideMenuExpandedStatus(!sideMenuIsExpanded);
@@ -205,6 +219,18 @@ class SideMenu extends Component {
             type="header"
             iconSource={titleIcon}
             onClick={this.onTitleButtonClick.bind(this)}
+          />
+          <input
+            id="file-upload"
+            type="file"
+            accept="image/png, image/jpeg"
+            ref={ref => this.upload = ref}
+            onChange={this.uploadImage.bind(this)}
+          />
+          <SideMenuItem
+            type="image"
+            iconSource={imageIcon}
+            onClick={this.onImageButtonClick.bind(this)}
           />
         </div>
       </div>
