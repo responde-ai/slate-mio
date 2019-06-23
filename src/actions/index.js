@@ -6,6 +6,7 @@ import {
   SIDE_MENU_UPDATE_HIDDEN_STATUS,
   SIDE_MENU_UPDATE_MOUSE_IN_STATUS,
   SIDE_MENU_UPDATE_EXPANDED_STATUS,
+  ON_EDITOR_CLICK,
  } from './actionsTypes';
 
 export const updateEditorState = value => ({
@@ -16,6 +17,12 @@ export const updateEditorState = value => ({
 export const onEditorKeyUp = value => ({
   type: ON_EDITOR_KEY_UP,
   keyCode: value,
+});
+
+export const onEditorClick = value => ({
+  type: ON_EDITOR_CLICK,
+  x: value.x,
+  y: value.y
 });
 
 export const updateMenuState = value => ({

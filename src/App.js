@@ -10,7 +10,6 @@ class App extends Component {
   constructor(props){
     super(props);
     this.editorRef = React.createRef();
-    this.sideMenuRef = React.createRef();
   }
 
   render(){

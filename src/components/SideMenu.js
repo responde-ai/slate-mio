@@ -11,9 +11,10 @@ import {
   updateSideMenuMouseInStatus,
   updateSideMenuExpandedStatus,
   onEditorKeyUp,
+  onEditorClick
 } from '../actions';
 
-import { getVisibleSelectionRect, getCollapsedClientRect } from 'get-selection-range';
+import { getVisibleSelectionRect } from 'get-selection-range';
 
 import '../assets/stylesheets/SideMenu.scss';
 
@@ -75,6 +76,9 @@ class SideMenu extends Component {
   // Chrome bug do not update selection rectangle when arrow up is pressed
   // this method handle this issue 
   getFixedSelectionTopPosition(){
+    if (this.props.editorOnClickY !== -1)
+      return this.getOnClickTopPosition();
+
     const LineSelection = getVisibleSelectionRect();
     const defaultTopPosition = LineSelection.top;
     const chock = 40;
@@ -99,8 +103,46 @@ class SideMenu extends Component {
     return defaultTopPosition;
   }
 
+  getOnClickTopPosition(){
+    const currentTopPosition = this.props.sideMenuStyle.top;
+    const clickYPosition = this.props.editorOnClickY;
+
+    const minY = currentTopPosition - 5;
+    const maxY = currentTopPosition + 5;
+
+    this.preventOnClickPropagation();
+  
+    if (minY < clickYPosition && maxY > clickYPosition) return currentTopPosition;
+    else return clickYPosition - 30;
+  }
+
   preventKeyUpPropagation(){
     this.props.onEditorKeyUp(-1);
+  }
+
+  preventOnClickPropagation(){
+    this.props.onEditorClick({x: -1, y: -1});
+  }
+
+  isEditorClick(prevProps){
+    return this.props.editorOnClickY !== prevProps.editorOnClickY &&
+      this.props.editorOnClickY !== -1;
+  }
+
+  isEditorKeyUp(prevProps){
+    const { editorKeyUp } = this.props;
+    const sensitiveKeys = [38, 40];
+
+    return prevProps.editorKeyUp !== editorKeyUp &&
+      sensitiveKeys.includes(editorKeyUp);
+  }
+
+  isEditorValueChange(prevProps){
+    const { sideMenuIsExpanded, sideMenuIsMouseIn } = this.props;
+
+    return this.isEditorValueUpdated(prevProps) &&
+      !sideMenuIsExpanded &&
+      !sideMenuIsMouseIn;
   }
 
   getSideMenuLeftPosition() {
@@ -124,17 +166,17 @@ class SideMenu extends Component {
     else return defaultClassName;
   }
 
+  onTitleButtonClick(event){
+    return;
+  }
+
   onClick(event){
     const { sideMenuIsExpanded, updateSideMenuExpandedStatus } = this.props;
     updateSideMenuExpandedStatus(!sideMenuIsExpanded);
   }
 
   componentDidUpdate(prevProps){
-    const { sideMenuIsExpanded, editorKeyUp, sideMenuIsMouseIn } = this.props;
-    const sensitiveKeys = [38, 40];
-
-    if ((this.isEditorValueUpdated(prevProps) && !sideMenuIsExpanded && !sideMenuIsMouseIn) || 
-    (prevProps.editorKeyUp !== editorKeyUp && sensitiveKeys.includes(editorKeyUp)))
+    if (this.isEditorClick(prevProps) || this.isEditorKeyUp(prevProps) || this.isEditorValueChange(prevProps))
       this.updateSideMenu();
   }
 
@@ -152,7 +194,7 @@ class SideMenu extends Component {
       >
         <SideMenuPlusButton/>
         <div className="mio-side-menu-content">
-          <SideMenuItem/>
+          <SideMenuItem onClick={this.onTitleButtonClick.bind(this)}/>
         </div>
       </div>
     );
@@ -166,6 +208,7 @@ const isValidSelection = () => {
 const mapStateToProps = store => ({
   editorValue: store.editorState.value,
   editorKeyUp: store.editorState.keyCode,
+  editorOnClickY: store.editorState.lastClickY,
   sideMenuStyle: store.sideMenuState.style,
   sideMenuIsHidden: store.sideMenuState.isHidden,
   sideMenuIsMouseIn: store.sideMenuState.isMouseIn,
@@ -178,7 +221,8 @@ const mapDispatchToProps = dispatch => (
     updateSideMenuHiddenStatus,
     updateSideMenuMouseInStatus,
     updateSideMenuExpandedStatus,
-    onEditorKeyUp
+    onEditorKeyUp,
+    onEditorClick
   }, dispatch)
 );
 

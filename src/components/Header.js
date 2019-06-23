@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import '../assets/stylesheets/Header.scss';
 
 class Header extends Component {
-  state = { value: "Título Aqui" };
+  state = { value: "Title Here" };
 
   onChange(event){
     this.setState({ value: event.target.value });
