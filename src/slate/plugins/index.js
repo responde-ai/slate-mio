@@ -1,5 +1,5 @@
 import CustomCommands from './CustomCommands';
-import ImageUpload from './ImageUpload';
+import Image from './Image';
 import EditCode from '@tildepage/slate-code-block';
 import CodeHighlight from './CodeHighlight';
 import SoftBreak from './SoftBreak';
@@ -7,7 +7,7 @@ import MarkHotKey from './MarkHotKey';
 import BlockHotKey from './BlockHotKey';
 
 const CustomCommandsPlugin = CustomCommands();
-const ImageUploadPlugin = ImageUpload();
+const ImagePlugin = Image();
 const EditCodePlugin = EditCode({ containerType: 'code', allowMarks: 'true' });
 const CodeHighlightPlugin = CodeHighlight();
 const SoftBreakPlugin = SoftBreak();
@@ -26,7 +26,7 @@ const codePlugin = BlockHotKey({
 
 const plugins = [
   CustomCommandsPlugin,
-  ImageUploadPlugin,
+  ImagePlugin,
   EditCodePlugin,
   CodeHighlightPlugin,
   SoftBreakPlugin,
