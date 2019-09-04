@@ -13,14 +13,7 @@ export class Image extends Component {
   }
 
   onFileUploadFailure(){
-    console.log('failure');
-  }
-
-  getClassName(){
-    const clicked = this.state.clicked;
-    const defaultClassName = "image-container";
-
-    return clicked ? `${defaultClassName} clicked` : defaultClassName;
+    console.alert('failure');
   }
 
   onClick(event) {
@@ -38,14 +31,41 @@ export class Image extends Component {
   render() {
     const { attributes } = this.props;
     const src = this.state.src;
+    const isSelected = this.state.clicked
 
     return (
-      <div className={this.getClassName()} {...attributes} onClick={this.onClick.bind(this)}>
-        <img src={src} alt="upload"/>
+      <div style={getImageContainerStyle(isSelected)} {...attributes} onClick={this.onClick.bind(this)}>
+        <img style={imageComponentStyle} src={src} alt="upload"/>
+        <div style={getResizerStyle(isSelected)} onMouseDown={() => console.log("opa")}>
+        </div>
       </div>
     );
   }
 }
+
+const getImageContainerStyle = (isSelected) => ({
+  position: 'relative',
+  display: "inline-block",
+  boxShadow: isSelected ? "0 0 0 2px blue" : ""
+});
+
+const getResizerStyle = (isSelected) => ({
+    position: 'absolute',
+    right: '0px',
+    bottom: '0px',
+    width: '12px',
+    height: '12px',
+    background: 'blue',
+    transform: 'translate(6px, 6px)',
+    cursor: 'nwse-resize',
+    display: isSelected ? "block" : 'none',
+});
+
+const imageComponentStyle = {
+  display: "block",
+  maxWidth: "100%",
+  maxHeight: "20em"
+};
 
 const uploadFile = file => {
   let reader = new FileReader();
