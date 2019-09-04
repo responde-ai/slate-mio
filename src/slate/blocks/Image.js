@@ -1,15 +1,45 @@
 import React, { Component } from 'react';
+import uploadImage from '../../services/ImageUploader';
 
 import loadingImageIcon from '../../assets/icons/loading-icon.svg';
 
 export class Image extends Component {
+  MIN_WIDTH = 50;
+  MIN_HEIGHT = 50;
+
   state = {
     src: loadingImageIcon,
-    clicked: false,
+    width: 0,
+    height: 0,
+    isLoaded: false,
+    isSelected: false,
+    isResizing: false,
   }
 
-  onFileUploadSuccess(url){
-    this.setState({ src: url });
+  resize(mouseX, mouseY){
+    const imgRect = this.imgRef.getBoundingClientRect();
+    const x0 = imgRect.left;
+    const y0 = imgRect.top;
+    const xf = mouseX;
+    const yf = mouseY;
+
+    const width = Math.round(Math.abs(xf-x0));
+    const height = Math.round(Math.abs(yf-y0));
+
+    console.log(imgRect, mouseX, mouseY);
+
+    if (width < this.MIN_WIDTH || height < this.MIN_HEIGHT) return;
+
+    this.setState( { width, height });
+  }
+
+  onFileUploadSuccess(image){
+    this.setState({
+      src: image.src,
+      isLoaded: true,
+      width: image.width,
+      height: image.height
+    });
   }
 
   onFileUploadFailure(){
@@ -17,26 +47,50 @@ export class Image extends Component {
   }
 
   onClick(event) {
-    const clicked = this.state.clicked;
-    this.setState({clicked: !clicked});
+    const isSelected = this.state.isSelected;
+    this.setState({ isSelected: !isSelected });
+  }
+
+  resizerOnMouseDown(event) {
+    if (!this.state.isLoaded) return;
+    this.setState({ isResizing: true });
+  }
+
+  resizerOnMouseMove(event) {
+    if (!this.state.isLoaded || !this.state.isResizing || !this.imgRef ) return;
+
+    this.resize(event.clientX, event.clientY);
+  }
+
+  resizerOnMouseUp(event) {
+    this.setState({ isResizing: false });
   }
 
   componentDidMount(){
     const file = this.props.node.data.get('file');
-    uploadFile(file).then(
+    uploadImage(file).then(
       this.onFileUploadSuccess.bind(this),
       this.onFileUploadFailure.bind(this));
   }
 
   render() {
     const { attributes } = this.props;
-    const src = this.state.src;
-    const isSelected = this.state.clicked
+    const { src, width, height, isSelected } = this.state;
 
     return (
       <div style={getImageContainerStyle(isSelected)} {...attributes} onClick={this.onClick.bind(this)}>
-        <img style={imageComponentStyle} src={src} alt="upload"/>
-        <div style={getResizerStyle(isSelected)} onMouseDown={() => console.log("opa")}>
+        <img
+          style={imageComponentStyle(width, height)}
+          src={src}
+          alt="upload"
+          ref = {ref => this.imgRef = ref}
+          />
+        <div
+          style={getResizerStyle(isSelected)}
+          onMouseDown={this.resizerOnMouseDown.bind(this)}
+          onMouseUp={this.resizerOnMouseUp.bind(this)}
+          onMouseMove={this.resizerOnMouseMove.bind(this)}
+        >
         </div>
       </div>
     );
@@ -61,19 +115,12 @@ const getResizerStyle = (isSelected) => ({
     display: isSelected ? "block" : 'none',
 });
 
-const imageComponentStyle = {
+const imageComponentStyle = (width, height) => ({
   display: "block",
   maxWidth: "100%",
-  maxHeight: "20em"
-};
-
-const uploadFile = file => {
-  let reader = new FileReader();
-  return new Promise((accept, fail) => {
-    reader.onload = () => accept(reader.result);
-    reader.onerror = () => fail(reader.error);
-    reader.readAsDataURL(file);
-  });
-};
+  maxHeight: "20em",
+  width: `${width}px`,
+  height: `${height}px`,
+});
 
 export default Image;
