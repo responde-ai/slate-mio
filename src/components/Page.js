@@ -13,6 +13,7 @@ import '../assets/stylesheets/Page.scss';
 
 class Page extends Component {
   onChange = ({ value }) => {
+    console.log(value.toJSON());
     this.props.updateEditorState(value);
   }
 

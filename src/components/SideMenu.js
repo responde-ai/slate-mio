@@ -18,6 +18,7 @@ import { getVisibleSelectionRect } from 'get-selection-range';
 
 import titleIcon from '../assets/icons/title-icon.svg';
 import imageIcon from '../assets/icons/image-icon.svg';
+import mathIcon from '../assets/icons/math-icon.svg';
 
 import '../assets/stylesheets/SideMenu.scss';
 
@@ -191,6 +192,10 @@ class SideMenu extends Component {
     this.upload.click(event);
   }
 
+  onMathButtonClick(event) {
+
+  }
+
   onClick(event){
     const { sideMenuIsExpanded, updateSideMenuExpandedStatus } = this.props;
     updateSideMenuExpandedStatus(!sideMenuIsExpanded);
@@ -231,6 +236,11 @@ class SideMenu extends Component {
             type="image"
             iconSource={imageIcon}
             onClick={this.onImageButtonClick.bind(this)}
+          />
+          <SideMenuItem
+            type="math"
+            iconSource={mathIcon}
+            onClick={this.onMathButtonClick.bind(this)}
           />
         </div>
       </div>
