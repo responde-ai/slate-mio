@@ -26,8 +26,6 @@ export class Image extends Component {
     const width = Math.round(Math.abs(xf-x0));
     const height = Math.round(Math.abs(yf-y0));
 
-    console.log(imgRect, mouseX, mouseY);
-
     if (width < this.MIN_WIDTH || height < this.MIN_HEIGHT) return;
 
     this.setState( { width, height });
@@ -62,7 +60,7 @@ export class Image extends Component {
     this.resize(event.clientX, event.clientY);
   }
 
-  resizerOnMouseUp(event) {
+  disableResizing() {
     this.setState({ isResizing: false });
   }
 
@@ -88,8 +86,9 @@ export class Image extends Component {
         <div
           style={getResizerStyle(isSelected)}
           onMouseDown={this.resizerOnMouseDown.bind(this)}
-          onMouseUp={this.resizerOnMouseUp.bind(this)}
+          onMouseUp={this.disableResizing.bind(this)}
           onMouseMove={this.resizerOnMouseMove.bind(this)}
+          onMouseLeave={this.disableResizing.bind(this)}
         >
         </div>
       </div>
