@@ -7,6 +7,7 @@ import {
   SIDE_MENU_UPDATE_MOUSE_IN_STATUS,
   SIDE_MENU_UPDATE_EXPANDED_STATUS,
   ON_EDITOR_CLICK,
+  ON_NEW_MATH_CLICK,
  } from './actionsTypes';
 
 export const updateEditorState = value => ({
@@ -48,4 +49,11 @@ export const updateSideMenuMouseInStatus = value => ({
 export const updateSideMenuExpandedStatus = value => ({
   type: SIDE_MENU_UPDATE_EXPANDED_STATUS,
   isExpanded: value,
+});
+
+export const onMathButtonClick = value => ({
+  type: ON_NEW_MATH_CLICK,
+  shouldShow: value.shouldShow,
+  mathContent: value.mathContent,
+  selectedMathBlock: value.selectedMathBlock,
 });

@@ -16,10 +16,10 @@ class MenuItem extends Component {
   }
 
   render(){
-    const { type, iconSource, onClick } = this.props;
+    const { style, type, iconSource, onClick } = this.props;
 
     return (
-      <div className={this.getClassName()} onClick={onClick}>
+      <div style={style} className={this.getClassName()} onClick={onClick}>
         <img
           src={iconSource}
           alt={`Menu ${type} button`}

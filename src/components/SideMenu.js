@@ -11,7 +11,8 @@ import {
   updateSideMenuMouseInStatus,
   updateSideMenuExpandedStatus,
   onEditorKeyUp,
-  onEditorClick
+  onEditorClick,
+  onMathButtonClick,
 } from '../actions';
 
 import { getVisibleSelectionRect } from 'get-selection-range';
@@ -23,7 +24,6 @@ import mathIcon from '../assets/icons/math-icon.svg';
 import '../assets/stylesheets/SideMenu.scss';
 
 class SideMenu extends Component {
-
   updateSideMenu(){
     if (!this.sideMenuRef) return;
 
@@ -193,7 +193,11 @@ class SideMenu extends Component {
   }
 
   onMathButtonClick(event) {
-
+    this.props.onMathButtonClick({
+      shouldShow: true,
+      mathContent: "",
+      selectedMathBlock: null,
+    });
   }
 
   onClick(event){
@@ -269,7 +273,8 @@ const mapDispatchToProps = dispatch => (
     updateSideMenuMouseInStatus,
     updateSideMenuExpandedStatus,
     onEditorKeyUp,
-    onEditorClick
+    onEditorClick,
+    onMathButtonClick,
   }, dispatch)
 );
 

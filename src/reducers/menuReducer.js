@@ -4,11 +4,11 @@ const initialStyle = {
   display: 'none',
   top: 0,
   left: 0,
-}
+};
 
 const initialState = {
   style: initialStyle,
-}
+};
 
 export const menuReducer = (state = initialState, action) => {
   switch (action.type) {
