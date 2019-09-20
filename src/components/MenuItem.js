@@ -11,8 +11,11 @@ class MenuItem extends Component {
   }
   
   getClassName(){
+    const addToClassName = this.props.addToClassName;
     const defaultClassName = "mio-menu-item";
-    return this.isTypeAnActiveMark() ? defaultClassName : `${defaultClassName} deactive`;
+    const className = `${defaultClassName} ${addToClassName}`;
+
+    return this.isTypeAnActiveMark() ? className : `${className} deactive`;
   }
 
   render(){
