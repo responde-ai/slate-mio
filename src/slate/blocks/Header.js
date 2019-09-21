@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export class Header extends Component {
+class Header extends Component {
   render() {
     return (
       <h3 {...this.props.attributes}>

@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 
-import { onMathButtonClick } from '../actions';
+import { onMathButtonClick, onMathEquationSubmit } from '../actions';
 
 import MenuItem from './MenuItem';
+import MathEquation from './generic/MathEquation';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import closeButtonIcon from '../assets/icons/close-icon.svg';
+import submitButtonIcon from '../assets/icons/submit-icon.svg';
 import '../assets/stylesheets/MathEditor.scss';
 
 class MathEditor extends Component {
@@ -26,9 +28,19 @@ class MathEditor extends Component {
     });
   }
 
+  onSubmitButtonClick(event) {
+    if (this.isEmptyEquation()) return;
+
+    this.props.onMathEquationSubmit(this.state.mathContent);
+  }
+
   onTextChange(event) {
     const newValue = event.target.value;
     this.setState({ mathContent: newValue });
+  }
+
+  isEmptyEquation(){
+    return this.state.mathContent === "";
   }
 
   render(){
@@ -41,23 +53,24 @@ class MathEditor extends Component {
           onClick={this.onCloseButtonClick.bind(this)}
         />
         <p>Type an AsciiMath Equation</p>
-        <textarea
+        <input
+          type="text"
           className="math-editor-equation-input"
+          maxLength="45"
           value={this.state.mathContent}
           onChange={this.onTextChange.bind(this)}
-        >
-        <MathPreview></MathPreview>
-        </textarea>
+        />
+        <MathEquation content={this.state.mathContent}></MathEquation>
+        <MenuItem
+          addToClassName="math-editor-submit"
+          type="submit"
+          iconSource={submitButtonIcon}
+          onClick={this.onSubmitButtonClick.bind(this)}
+        ></MenuItem>
       </div>
     );
   }
 };
-
-function MathPreview(props) {
-  return (
-    
-  );
-}
 
 const mapStateToProps = store => ({
   mathContent: store.mathEditorState.mathContent,
@@ -67,6 +80,7 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     onMathButtonClick,
+    onMathEquationSubmit,
   }, dispatch)
 );
 
