@@ -10,8 +10,7 @@ import { bindActionCreators } from 'redux';
 import {
   updateEditorState,
   onEditorKeyUp,
-  onEditorClick,
-  onMathBlockCreatedOrUpdated
+  onEditorClick
 } from '../actions';
 
 import '../assets/stylesheets/Page.scss';
@@ -23,19 +22,32 @@ class Page extends Component {
   }
 
   updateOrCreateMathBlock() {
-    const { mathContent } = this.props;
+    const selectedMathBlock = this.props.selectedMathBlock;
+
+    if (selectedMathBlock) return this.updateMathBlock(selectedMathBlock);
+    this.createMathBlock()
+  }
+
+  updateMathBlock(selectedMathBlock) {
+    const mathContent = this.props.mathContent;
+
+    this.props.editorRef.current.setNodeByKey(selectedMathBlock.dataset.key, {
+      type: "math",
+      data: { content: mathContent }
+    });
+  }
+
+  createMathBlock() {
+    const mathContent = this.props.mathContent;
 
     this.props.editorRef.current.insertBlock({
       type: "math",
       data: { content: mathContent }
       });
-
-    //this.props.onMathBlockCreatedOrUpdated();
   }
 
   shouldUpdateOrCreateMathBlock(prevProps){
-    return this.props.shouldUpdateOrCreateMathBlock &&
-      this.props.shouldUpdateOrCreateMathBlock !== prevProps.shouldUpdateOrCreateMathBlock;
+    return this.props.mathContent !== prevProps.mathContent;
   }
 
   onKeyUp(event){
@@ -47,8 +59,7 @@ class Page extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.shouldUpdateOrCreateMathBlock(prevProps))
-      this.updateOrCreateMathBlock();
+    if (this.shouldUpdateOrCreateMathBlock(prevProps)) this.updateOrCreateMathBlock();
   }
 
   render(){
@@ -76,7 +87,6 @@ const mapStateToProps = store => ({
   editorValue: store.editorState.value,
   mathContent: store.mathEditorState.mathContent,
   selectedMathBlock: store.mathEditorState.selectedMathBlock,
-  shouldUpdateOrCreateMathBlock: store.mathEditorState.shouldUpdateOrCreateMathBlock,
 });
 
 const mapDispatchToProps = dispatch => (
@@ -84,7 +94,6 @@ const mapDispatchToProps = dispatch => (
     updateEditorState,
     onEditorKeyUp,
     onEditorClick,
-    onMathBlockCreatedOrUpdated
   }, dispatch)
 );
 

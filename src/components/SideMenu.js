@@ -12,7 +12,7 @@ import {
   updateSideMenuExpandedStatus,
   onEditorKeyUp,
   onEditorClick,
-  onMathButtonClick,
+  createNewMathEquation,
 } from '../actions';
 
 import { getVisibleSelectionRect } from 'get-selection-range';
@@ -193,11 +193,7 @@ class SideMenu extends Component {
   }
 
   onMathButtonClick(event) {
-    this.props.onMathButtonClick({
-      shouldShow: true,
-      mathContent: "",
-      selectedMathBlock: null,
-    });
+    this.props.createNewMathEquation();
   }
 
   onClick(event){
@@ -274,7 +270,7 @@ const mapDispatchToProps = dispatch => (
     updateSideMenuExpandedStatus,
     onEditorKeyUp,
     onEditorClick,
-    onMathButtonClick,
+    createNewMathEquation,
   }, dispatch)
 );
 

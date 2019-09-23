@@ -8,8 +8,9 @@ import {
   SIDE_MENU_UPDATE_EXPANDED_STATUS,
   ON_EDITOR_CLICK,
   ON_NEW_MATH_CLICK,
+  ON_MATH_EDIT,
   ON_MATH_EQUATION_SUBMIT,
-  ON_MATH_BLOCK_CREATED_OR_UPDATED,
+  ON_MATH_EQUATION_CANCEL
  } from './actionsTypes';
 
 export const updateEditorState = value => ({
@@ -53,8 +54,12 @@ export const updateSideMenuExpandedStatus = value => ({
   isExpanded: value,
 });
 
-export const onMathButtonClick = value => ({
+export const createNewMathEquation = () => ({
   type: ON_NEW_MATH_CLICK,
+});
+
+export const editMathEquation = value => ({
+  type: ON_MATH_EDIT,
   shouldShow: value.shouldShow,
   mathContent: value.mathContent,
   selectedMathBlock: value.selectedMathBlock,
@@ -65,6 +70,6 @@ export const onMathEquationSubmit = value => ({
   mathContent: value,
 });
 
-export const onMathBlockCreatedOrUpdated = () => ({
-  type: ON_MATH_BLOCK_CREATED_OR_UPDATED
-})
+export const hideMathEditor = () => ({
+  type: ON_MATH_EQUATION_CANCEL,
+});
