@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import Header from './components/Header';
-import Menu from './components/Menu';
-import SideMenu from './components/SideMenu';
+import Header from './components/ui/Header';
+import PopUpMenu from './components/ui/PopUpMenu';
 import Page from './components/Page';
 import MathEditor from './components/MathEditor';
 
@@ -21,9 +20,8 @@ class App extends Component {
 
     return (
     <div className="mio-app" ref={this.mainContainerRef}>
-      <Header/>
-      <Menu editorRef={this.editorRef}/>
-      <SideMenu editorRef={this.editorRef} mainContainerRef={this.mainContainerRef}/>
+      <Header />
+      <PopUpMenu editorRef={this.editorRef}/>
       <Page editorRef={this.editorRef}/>
       { mathEditorShouldShow && 
         <MathEditor/>

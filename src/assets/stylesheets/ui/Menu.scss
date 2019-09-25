@@ -1,0 +1,13 @@
+.menu-container {
+  display: flex;
+
+  .menu-category {
+    position: relative;
+    display: flex;
+    margin: 10px 0;
+
+    &:not(:last-child) { 
+      border-right: 1px solid rgb(218, 220, 224);
+    }
+  }
+}
