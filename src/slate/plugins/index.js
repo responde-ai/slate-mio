@@ -6,6 +6,8 @@ import SoftBreak from './SoftBreak';
 import MarkHotKey from './MarkHotKey';
 import BlockHotKey from './BlockHotKey';
 
+import Lists from '@convertkit/slate-lists';
+
 const CustomCommandsPlugin = CustomCommands();
 const ImagePlugin = Image();
 const EditCodePlugin = EditCode({ containerType: 'code', allowMarks: 'true' });
@@ -16,6 +18,19 @@ const italicPlugin = MarkHotKey({ key: 'i', type: 'italic' });
 const underlinePlugin = MarkHotKey({ key: 'u', type: 'underline'});
 const strikethroughPlugin = MarkHotKey({ key: 's', type: 'strikethrough'});
 
+const ListPlugin = Lists({
+  blocks: {
+    ordered_list: "ordered-list",
+    unordered_list: "unordered-list",
+    list_item: "list-item",
+  },
+  classNames: {
+    ordered_list: "orderded-list",
+    unordered_list: "unordered-list",
+    list_item: "list-item"
+  }
+});
+
 const codePlugin = BlockHotKey({
   key: '1',
   type: 'code',
@@ -25,6 +40,7 @@ const codePlugin = BlockHotKey({
 });
 
 const plugins = [
+  ListPlugin,
   CustomCommandsPlugin,
   ImagePlugin,
   EditCodePlugin,

@@ -35,7 +35,7 @@ class Header extends Component {
       />
       <div className="input-menu-wrapper">
         <DocumentTitle value={this.state.documentTitle} onTextChange={this.onDocumentTitleChange.bind(this)}/>
-        <Menu />
+        <Menu editorRef={this.props.editorRef}/>
       </div>
     </div>
     );

@@ -20,7 +20,7 @@ class App extends Component {
 
     return (
     <div className="mio-app" ref={this.mainContainerRef}>
-      <Header />
+      <Header editorRef={this.editorRef}/>
       <PopUpMenu editorRef={this.editorRef}/>
       <Page editorRef={this.editorRef}/>
       { mathEditorShouldShow && 

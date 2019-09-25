@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@convertkit/slate-lists": "^0.2.4",
     "@tildepage/slate-code-block": "^0.1.6",
     "get-selection-range": "^0.1.0",
     "immutable": "^4.0.0-rc.12",
