@@ -1,5 +1,4 @@
 import {
-  MENU_UPDATE_STYLE,
   SIDE_MENU_UPDATE_STYLE,
   SIDE_MENU_UPDATE_HIDDEN_STATUS,
   SIDE_MENU_UPDATE_MOUSE_IN_STATUS,
@@ -9,11 +8,6 @@ import {
   ON_MATH_EQUATION_SUBMIT,
   ON_MATH_EQUATION_CANCEL
  } from './actionsTypes';
-
-export const updateMenuState = value => ({
-  type: MENU_UPDATE_STYLE,
-  style: value,
-});
 
 export const updateSideMenuState = value => ({
   type: SIDE_MENU_UPDATE_STYLE,
