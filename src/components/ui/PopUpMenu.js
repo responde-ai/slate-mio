@@ -13,8 +13,12 @@ import '../../assets/stylesheets/PopUpMenu.scss';
 import MenuItem from '../MenuItem';
 
 class PopUpMenu extends Component {
-  mouseOnMenu = false;
-  updatingFromMenu = false;
+  constructor(props) {
+    super(props);
+    this.mouseOnMenu = false;
+    this.updatingFromMenu = false;
+  }
+  
 
   updateMenu(){
     if(!this.menuRef) return;
@@ -85,27 +89,19 @@ class PopUpMenu extends Component {
     return this.menuRef.offsetWidth;
   }
 
-  getEditor(){
-    return this.props.editorRef.current;
-  }
-
   toggleMark(type){
     return event => {
-      const editor = this.getEditor();
-
       event.preventDefault();
-      editor.toggleMark(type);
-      editor.focus();
-      this.updatingFromMenu = true;
+      this.props.emitter.emit('toggleMark', { type });
     }
   }
 
-  onMouseEnter(event){
+  onMouseEnter() {
     this.mouseOnMenu = true;
   }
 
-  onMouseLeave(event){
-    this.mouseOnMenu = false;
+  onMouseLeave() {
+    this.mouseOnMenu = false; //state
   }
 
   componentDidUpdate(prevProps){
@@ -161,7 +157,6 @@ const getScrollAlongXAxis = () => {
 }
 
 const mapStateToProps = store => ({
-  editorValue: store.editorState.value,
   menuStyle: store.menuState.style,
 });
 

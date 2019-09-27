@@ -1,33 +1,14 @@
 import {
-  EDITOR_UPDATE_VALUE,
-  ON_EDITOR_KEY_UP,
   MENU_UPDATE_STYLE,
   SIDE_MENU_UPDATE_STYLE,
   SIDE_MENU_UPDATE_HIDDEN_STATUS,
   SIDE_MENU_UPDATE_MOUSE_IN_STATUS,
   SIDE_MENU_UPDATE_EXPANDED_STATUS,
-  ON_EDITOR_CLICK,
   ON_NEW_MATH_CLICK,
   ON_MATH_EDIT,
   ON_MATH_EQUATION_SUBMIT,
   ON_MATH_EQUATION_CANCEL
  } from './actionsTypes';
-
-export const updateEditorState = value => ({
-  type: EDITOR_UPDATE_VALUE,
-  value
-});
-
-export const onEditorKeyUp = value => ({
-  type: ON_EDITOR_KEY_UP,
-  keyCode: value,
-});
-
-export const onEditorClick = value => ({
-  type: ON_EDITOR_CLICK,
-  x: value.x,
-  y: value.y
-});
 
 export const updateMenuState = value => ({
   type: MENU_UPDATE_STYLE,

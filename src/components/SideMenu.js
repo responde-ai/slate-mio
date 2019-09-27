@@ -253,9 +253,6 @@ const isValidSelection = () => {
 }
 
 const mapStateToProps = store => ({
-  editorValue: store.editorState.value,
-  editorKeyUp: store.editorState.keyCode,
-  editorOnClickY: store.editorState.lastClickY,
   sideMenuStyle: store.sideMenuState.style,
   sideMenuIsHidden: store.sideMenuState.isHidden,
   sideMenuIsMouseIn: store.sideMenuState.isMouseIn,

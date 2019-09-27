@@ -6,21 +6,15 @@ import renderBlock from '../slate/blocks';
 import renderDecoration from '../slate/decorations';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import {
-  updateEditorState,
-  onEditorKeyUp,
-  onEditorClick
-} from '../actions';
 
 import '../assets/stylesheets/Page.scss';
 
 class Page extends Component {
-  onChange = ({ value }) => {
-    console.log(value.toJSON());
-    this.props.updateEditorState(value);
+  toggleMark({ type }) {
+    this.ref.toggleMark(type);
+    this.ref.focus();
   }
-
+  
   updateOrCreateMathBlock() {
     const selectedMathBlock = this.props.selectedMathBlock;
 
@@ -29,6 +23,7 @@ class Page extends Component {
   }
 
   updateMathBlock(selectedMathBlock) {
+    if (!this.ref) return;
     const mathContent = this.props.mathContent;
 
     this.props.editorRef.current.setNodeByKey(selectedMathBlock.dataset.key, {
@@ -38,45 +33,50 @@ class Page extends Component {
   }
 
   createMathBlock() {
+    if (!this.ref) return;
     const mathContent = this.props.mathContent;
 
-    this.props.editorRef.current.insertBlock({
+    this.ref.insertBlock({
       type: "math",
       data: { content: mathContent }
       });
   }
 
+
   shouldUpdateOrCreateMathBlock(prevProps){
     return this.props.mathContent !== prevProps.mathContent;
   }
 
-  onKeyUp(event){
-    this.props.onEditorKeyUp(event.keyCode);
+  setEventsListeners() {
+    this.props.emitter.on('toggleMark', this.toggleMark.bind(this));
   }
 
   onClick(event){
-    this.props.onEditorClick({ x: event.clientX, y: event.clientY });
+    this.props.emitter.emit('onEditorClick', { x: event.clientX, y: event.clientY })
+  }
+  
+  componentDidMount() {
+    this.setEventsListeners();
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (this.shouldUpdateOrCreateMathBlock(prevProps)) this.updateOrCreateMathBlock();
   }
 
   render(){
-    const { editorValue } = this.props;
+    const { editorValue, onEditorValueChange } = this.props;
 
     return (
       <div className="mio-page">
         <Editor
-          onKeyUp={this.onKeyUp.bind(this)}
+          ref={ref => this.ref = ref}
           onClick={this.onClick.bind(this)}
           plugins={plugins}
           value={editorValue}
-          onChange={this.onChange}
+          onChange={onEditorValueChange}
           renderMark={renderMark}
           renderBlock={renderBlock}
           renderDecoration={renderDecoration}
-          ref={this.props.editorRef}
         />
       </div>
     );
@@ -84,17 +84,8 @@ class Page extends Component {
 }
 
 const mapStateToProps = store => ({
-  editorValue: store.editorState.value,
   mathContent: store.mathEditorState.mathContent,
   selectedMathBlock: store.mathEditorState.selectedMathBlock,
 });
 
-const mapDispatchToProps = dispatch => (
-  bindActionCreators({
-    updateEditorState,
-    onEditorKeyUp,
-    onEditorClick,
-  }, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Page);
+export default connect(mapStateToProps)(Page);

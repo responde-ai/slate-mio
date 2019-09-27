@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import { connect } from 'react-redux';
 import '../assets/stylesheets/MenuItem.scss';
 
 class MenuItem extends Component {
@@ -21,8 +20,4 @@ class MenuItem extends Component {
   }
 }
 
-const mapStateToProps = store => ({
-  editorValue: store.editorState.value,
-});
-
-export default connect(mapStateToProps)(MenuItem);
+export default MenuItem;
