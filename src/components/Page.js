@@ -16,8 +16,6 @@ class Page extends Component {
   updateOrCreateMathBlock(action, payload) {
     if (!this.ref) return;
 
-    console.log(action, payload, this.ref);
-
     const blockProps = {
       type: 'math',
       data: { content: payload.mathContent }
@@ -29,6 +27,8 @@ class Page extends Component {
       const nodeKey = payload.selectedMathBlock.dataset.key;
       this.ref.setNodeByKey(nodeKey, blockProps);
     } else this.ref.insertBlock(blockProps);
+
+    setTimeout(() => this.props.emitter.emit('closeMathEditor'), 0);  
   }
 
   updateMathBlock(payload) {
@@ -54,12 +54,11 @@ class Page extends Component {
   }
 
   render(){
-    const { editorValue, onEditorValueChange } = this.props;
+    const { editorValue, onEditorValueChange, emitter } = this.props;
 
     return (
       <div className="mio-page">
         <Editor
-          ref={ref => this.ref = ref}
           onClick={this.onClick.bind(this)}
           plugins={plugins}
           value={editorValue}
@@ -67,6 +66,8 @@ class Page extends Component {
           renderMark={renderMark}
           renderBlock={renderBlock}
           renderDecoration={renderDecoration}
+          emitter={emitter}
+          ref={ref => this.ref = ref}
         />
       </div>
     );

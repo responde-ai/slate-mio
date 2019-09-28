@@ -31,7 +31,8 @@ class Menu extends Component {
     this.props.editorRef.current.toggleList({ type: "ordered-list" });
   }
 
-  onNewMathEquationClick() {
+  onNewMathEquationClick(event) {
+    event.preventDefault();
     this.props.emitter.emit('showMathEditor');
   }
 

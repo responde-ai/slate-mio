@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 
-import { hideMathEditor } from '../actions';
-
 import MenuItem from './MenuItem';
 import MathEquation from './generic/MathEquation';
-
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import closeButtonIcon from '../assets/icons/close-icon.svg';
 import submitButtonIcon from '../assets/icons/submit-icon.svg';
@@ -22,16 +17,14 @@ class MathEditor extends Component {
   }
 
   onCloseButtonClick(event) {
-    this.props.hideMathEditor();
+    this.props.emitter.emit('closeMathEditor');
   }
 
   onSubmitButtonClick(event) {
-    if (this.isEmptyEquation()) return;
+    event.preventDefault();
 
     const { mathContent } = this.state;
     const { selectedMathBlock, emitter } = this.props;
-
-    emitter.emit('closeMathEditor');
 
     if (selectedMathBlock)
       emitter.emit('updateMathEquation', { mathContent, selectedMathBlock });
@@ -48,6 +41,8 @@ class MathEditor extends Component {
   }
 
   render(){
+    const { mathContent } = this.state;
+
     return (
       <div className="math-editor-container">
         <MenuItem
@@ -61,10 +56,10 @@ class MathEditor extends Component {
           type="text"
           className="math-editor-equation-input"
           maxLength="45"
-          value={this.state.mathContent}
+          value={mathContent}
           onChange={this.onTextChange.bind(this)}
         />
-        <MathEquation content={this.state.mathContent}></MathEquation>
+        <MathEquation content={mathContent}></MathEquation>
         <MenuItem
           addToClassName="math-editor-submit"
           type="submit"
@@ -76,15 +71,4 @@ class MathEditor extends Component {
   }
 };
 
-const mapStateToProps = store => ({
-  mathContent: store.mathEditorState.mathContent,
-  selectedMathBlock: store.mathEditorState.selectedMathBlock,
-});
-
-const mapDispatchToProps = dispatch => (
-  bindActionCreators({
-    hideMathEditor,
-  }, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(MathEditor);
+export default MathEditor;
