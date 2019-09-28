@@ -31,6 +31,10 @@ class Menu extends Component {
     this.props.editorRef.current.toggleList({ type: "ordered-list" });
   }
 
+  onNewMathEquationClick() {
+    this.props.emitter.emit('showMathEditor');
+  }
+
   render() {
     return (
       <div className="menu-container">
@@ -47,7 +51,7 @@ class Menu extends Component {
         </div>
         <div className="menu-category">
           <MenuItem type="image" iconSource={imageIcon} onClick={this.onBoldClick.bind(this)}/>
-          <MenuItem type="math" iconSource={mathIcon} onClick={this.onBoldClick.bind(this)}/>
+          <MenuItem type="math" iconSource={mathIcon} onClick={this.onNewMathEquationClick.bind(this)}/>
           <MenuItem type="code" iconSource={codeIcon} onClick={this.onBoldClick.bind(this)}/>
         </div>
       </div>

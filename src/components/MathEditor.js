@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { onMathEquationSubmit, hideMathEditor } from '../actions';
+import { hideMathEditor } from '../actions';
 
 import MenuItem from './MenuItem';
 import MathEquation from './generic/MathEquation';
@@ -15,8 +15,9 @@ import '../assets/stylesheets/MathEditor.scss';
 class MathEditor extends Component {
   constructor(props){
     super(props);
+
     this.state = {
-      mathContent: props.mathContent,
+      mathContent: props.initialMathContent,
     };  
   }
 
@@ -27,7 +28,14 @@ class MathEditor extends Component {
   onSubmitButtonClick(event) {
     if (this.isEmptyEquation()) return;
 
-    this.props.onMathEquationSubmit(this.state.mathContent);
+    const { mathContent } = this.state;
+    const { selectedMathBlock, emitter } = this.props;
+
+    emitter.emit('closeMathEditor');
+
+    if (selectedMathBlock)
+      emitter.emit('updateMathEquation', { mathContent, selectedMathBlock });
+    else emitter.emit('createMathEquation', { mathContent });
   }
 
   onTextChange(event) {
@@ -75,7 +83,6 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
-    onMathEquationSubmit,
     hideMathEditor,
   }, dispatch)
 );

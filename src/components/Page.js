@@ -5,8 +5,6 @@ import renderMark from '../slate/marks';
 import renderBlock from '../slate/blocks';
 import renderDecoration from '../slate/decorations';
 
-import { connect } from 'react-redux';
-
 import '../assets/stylesheets/Page.scss';
 
 class Page extends Component {
@@ -15,40 +13,36 @@ class Page extends Component {
     this.ref.focus();
   }
   
-  updateOrCreateMathBlock() {
-    const selectedMathBlock = this.props.selectedMathBlock;
-
-    if (selectedMathBlock) return this.updateMathBlock(selectedMathBlock);
-    this.createMathBlock()
-  }
-
-  updateMathBlock(selectedMathBlock) {
+  updateOrCreateMathBlock(action, payload) {
     if (!this.ref) return;
-    const mathContent = this.props.mathContent;
 
-    this.props.editorRef.current.setNodeByKey(selectedMathBlock.dataset.key, {
-      type: "math",
-      data: { content: mathContent }
-    });
+    console.log(action, payload, this.ref);
+
+    const blockProps = {
+      type: 'math',
+      data: { content: payload.mathContent }
+    };
+
+    this.ref.focus();
+
+    if (action === 'update') {
+      const nodeKey = payload.selectedMathBlock.dataset.key;
+      this.ref.setNodeByKey(nodeKey, blockProps);
+    } else this.ref.insertBlock(blockProps);
   }
 
-  createMathBlock() {
-    if (!this.ref) return;
-    const mathContent = this.props.mathContent;
-
-    this.ref.insertBlock({
-      type: "math",
-      data: { content: mathContent }
-      });
+  updateMathBlock(payload) {
+    this.updateOrCreateMathBlock("update", payload);
   }
 
-
-  shouldUpdateOrCreateMathBlock(prevProps){
-    return this.props.mathContent !== prevProps.mathContent;
+  createMathBlock(payload) {
+    this.updateOrCreateMathBlock("create", payload);
   }
 
-  setEventsListeners() {
+  setEventListeners() {
     this.props.emitter.on('toggleMark', this.toggleMark.bind(this));
+    this.props.emitter.on('updateMathEquation', this.updateMathBlock.bind(this));
+    this.props.emitter.on('createMathEquation', this.createMathBlock.bind(this));
   }
 
   onClick(event){
@@ -56,11 +50,7 @@ class Page extends Component {
   }
   
   componentDidMount() {
-    this.setEventsListeners();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.shouldUpdateOrCreateMathBlock(prevProps)) this.updateOrCreateMathBlock();
+    this.setEventListeners();
   }
 
   render(){
@@ -83,9 +73,4 @@ class Page extends Component {
   }
 }
 
-const mapStateToProps = store => ({
-  mathContent: store.mathEditorState.mathContent,
-  selectedMathBlock: store.mathEditorState.selectedMathBlock,
-});
-
-export default connect(mapStateToProps)(Page);
+export default Page;

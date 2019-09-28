@@ -7,8 +7,6 @@ import Page from './components/Page';
 import MathEditor from './components/MathEditor';
 import initialValue from './slate/initialValue';
 
-import { connect } from 'react-redux';
-
 import './App.scss';
 
 class App extends Component {
@@ -19,7 +17,19 @@ class App extends Component {
 
     this.state = {
       editorValue: initialValue,
+      shouldShowMathEditor: false,
+      mathEditorInitialContent: "",
+      selectedMathBlock: null,
     }
+  }
+
+  setEventListeners() {
+    this.emitter.on('closeMathEditor', () => this.setState({
+      shouldShowMathEditor: false,
+      mathEditorInitialContent: "",
+    }));
+
+    this.emitter.on('showMathEditor', () => this.setState({ shouldShowMathEditor: true }));
   }
 
   onEditorValueChange({ value }) {
@@ -27,24 +37,30 @@ class App extends Component {
     this.setState({editorValue : value });
   }
 
+  componentDidMount(){
+    this.setEventListeners();
+  }
+
   render(){
-    const mathEditorShouldShow = this.props.mathEditorShouldShow;
-    const editorValue = this.state.editorValue;
+    const { editorValue,
+      shouldShowMathEditor,
+      mathEditorInitialContent,
+      selectedMathBlock } = this.state;
 
     return (
     <div className="mio-app" ref={this.mainContainerRef}>
-      <Header editorValue={editorValue}/>
+      <Header editorValue={editorValue} emitter={this.emitter}/>
       <PopUpMenu editorValue={editorValue} emitter={this.emitter}/>
       <Page emitter={this.emitter} editorValue={editorValue} onEditorValueChange={this.onEditorValueChange.bind(this)}/>
-      { mathEditorShouldShow && 
-        <MathEditor/>
+      { shouldShowMathEditor && 
+        <MathEditor
+          emitter={this.emitter}
+          initiaMathContent={mathEditorInitialContent}
+          selectedMathBlock={selectedMathBlock}
+        />
       }
     </div>)
   }
 }
 
-const mapStateToProps = store => ({
-  mathEditorShouldShow: store.mathEditorState.shouldShow,
-});
-
-export default connect(mapStateToProps)(App);
+export default App;
