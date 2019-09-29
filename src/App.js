@@ -29,7 +29,15 @@ class App extends Component {
       mathEditorInitialContent: "",
     }));
 
-    this.emitter.on('showMathEditor', () => this.setState({ shouldShowMathEditor: true }));
+    this.emitter.on('showMathEditor', this.onShowMathEditor.bind(this));
+  }
+
+  onShowMathEditor(payload = {}) {
+    this.setState({
+      shouldShowMathEditor: true,
+      mathEditorInitialContent: payload.mathEditorInitialContent || this.state.mathEditorInitialContent,
+      selectedMathBlock: payload.selectedMathBlock || this.state.selectedMathBlock
+    });
   }
 
   onEditorValueChange({ value }) {
@@ -55,7 +63,7 @@ class App extends Component {
       { shouldShowMathEditor && 
         <MathEditor
           emitter={this.emitter}
-          initiaMathContent={mathEditorInitialContent}
+          initialMathContent={mathEditorInitialContent}
           selectedMathBlock={selectedMathBlock}
         />
       }

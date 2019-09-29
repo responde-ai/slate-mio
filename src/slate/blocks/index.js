@@ -16,7 +16,7 @@ const renderBlock = (props, editor, next) => {
     case 'code_line':
       return <CodeLineBlock {...props}/>;
     case 'math':
-      return <MathBlock {...props}/>;
+      return <MathBlock {...props} emitter={editor.props.emitter}/>;
     default:
       return next();
   }

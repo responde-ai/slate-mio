@@ -10,8 +10,8 @@ class MathBlock extends Component {
   }
 
   openEditor() {
-    this.props.editor.emitter.emit('updateMathEquation', {
-      mathContent: this.getMathContent(),
+    this.props.emitter.emit('showMathEditor', {
+      mathEditorInitialContent: this.getMathContent(),
       selectedMathBlock: this.ref
     });
   }
