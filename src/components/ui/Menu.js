@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 
-import headingIcon from '../../assets/icons/title-icon.svg';
-import boldIcon from '../../assets/icons/bold-icon-black.svg';
-import italicIcon from '../../assets/icons/italic-icon-black.svg';
-import underlineIcon from '../../assets/icons/underline-icon-black.svg';
-import strikethroughIcon from '../../assets/icons/strikethrough-icon-black.svg';
+import ToggleButton from './ToggleButton';
+
+import { ReactComponent as HeadingSVG } from '../../assets/icons/title-icon.svg';
+import { ReactComponent as BoldSVG } from '../../assets/icons/bold-icon.svg';
+import { ReactComponent as ItalicSVG } from '../../assets/icons/italic-icon.svg';
+import { ReactComponent as UnderlineSVG } from '../../assets/icons/underline-icon.svg';
+import { ReactComponent as StrikethroughSVG } from '../../assets/icons/strikethrough-icon.svg';
 
 import uList from '../../assets/icons/list-ul-icon.svg';
 import oList from '../../assets/icons/list-ol-icon.svg';
@@ -17,8 +19,24 @@ import '../../assets/stylesheets/ui/Menu.scss';
 import MenuItem from '../MenuItem';
 
 class Menu extends Component {
-  onBoldClick() {
-    console.log("opa!");
+  constructor(props) {
+    super(props);
+  }
+
+  toggleMark(type){
+    return event => {
+      event.preventDefault();
+      this.props.emitter.emit('toggleMark', { type });
+    }
+  }
+
+  onHeadingClick(event) {
+    event.preventDefault();
+  }
+
+  onBoldClick(event) {
+    event.preventDefault();
+
   }
 
   onUnorderedListButtonClick(event) {
@@ -37,14 +55,41 @@ class Menu extends Component {
   }
 
   render() {
+    const { editorValue } = this.props;
+
     return (
       <div className="menu-container">
         <div className="menu-category">
-          <MenuItem type="heading" iconSource={headingIcon} onClick={this.onBoldClick.bind(this)}/>
-          <MenuItem type="bold" iconSource={boldIcon} onClick={this.onBoldClick.bind(this)}/>
-          <MenuItem type="italic" iconSource={italicIcon} onClick={this.onBoldClick.bind(this)}/>
-          <MenuItem type="underline" iconSource={underlineIcon} onClick={this.onBoldClick.bind(this)}/>
-          <MenuItem type="strikethrough" iconSource={strikethroughIcon} onClick={this.onBoldClick.bind(this)}/>
+          <ToggleButton
+            SVG={HeadingSVG}
+            size={20}
+            status={getHeadingStatus(editorValue)}
+            onClick={this.onHeadingClick.bind(this)}
+          />
+          <ToggleButton
+            SVG={BoldSVG}
+            size={20}
+            status={getToggleButtonStatus("bold", editorValue)}
+            onClick={this.toggleMark("bold")}
+          />
+          <ToggleButton
+            SVG={ItalicSVG}
+            size={20}
+            status={getToggleButtonStatus("italic", editorValue)}
+            onClick={this.toggleMark("italic")}
+          />
+          <ToggleButton
+            SVG={UnderlineSVG}
+            size={20}
+            status={getToggleButtonStatus("underline", editorValue)}
+            onClick={this.toggleMark("underline")}
+          />
+          <ToggleButton
+            SVG={StrikethroughSVG}
+            size={20}
+            status={getToggleButtonStatus("strikethrough", editorValue)}
+            onClick={this.toggleMark("strikethrough")}
+          />
         </div>
         <div className="menu-category">
           <MenuItem type="unordered-list" iconSource={uList} onClick={this.onUnorderedListButtonClick.bind(this)}/>
@@ -59,5 +104,24 @@ class Menu extends Component {
     );
   }
 };
+
+const getHeadingStatus = value => {
+  if (isBlockOfType("heading", value)) return ToggleButton.TOGGLED_STATUS;
+  if (isBlockOfType("paragraph", value)) return ToggleButton.DEFAULT_STATUS;
+  return ToggleButton.DISABLED_STATUS;
+}
+
+const getToggleButtonStatus = (type, value) => {
+  if (isAnActiveMark(type, value)) return ToggleButton.TOGGLED_STATUS;
+  if (isAnMarkableBlock(value)) return ToggleButton.DEFAULT_STATUS;
+  return ToggleButton.DISABLED_STATUS;
+}
+
+const isAnActiveMark = (type, value) => value.activeMarks.some(mark => mark.type === type);
+
+const isBlockOfType = (type, value) => value.blocks.some(block => block.type === type);
+
+const isAnMarkableBlock = value => isBlockOfType('paragraph', value);
+
 
 export default Menu;
