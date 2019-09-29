@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 
 class ToggleButton extends Component {
+  onClickIfEnable(event) {
+    const { status, onClick } = this.props;
+
+    if (status !== ToggleButton.DISABLED_STATUS) return onClick(event);
+  }
+
   render() {
-    const { SVG, size, status, onClick } = this.props;
+    const { SVG, size, status } = this.props;
 
     return (
-      <div className="mio-menu-toogle-button" onClick={onClick}>
+      <div className="mio-menu-toogle-button" onClick={this.onClickIfEnable.bind(this)}>
         <SVG style={getStyle(size, status)}/>
       </div>
     );

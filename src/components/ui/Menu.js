@@ -19,10 +19,6 @@ import '../../assets/stylesheets/ui/Menu.scss';
 import MenuItem from '../MenuItem';
 
 class Menu extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   toggleMark(type){
     return event => {
       event.preventDefault();
@@ -32,11 +28,7 @@ class Menu extends Component {
 
   onHeadingClick(event) {
     event.preventDefault();
-  }
-
-  onBoldClick(event) {
-    event.preventDefault();
-
+    this.props.emitter.emit('toggleBlock', { type: 'heading' });
   }
 
   onUnorderedListButtonClick(event) {
@@ -96,9 +88,9 @@ class Menu extends Component {
           <MenuItem type="ordered-list" iconSource={oList} onClick={this.onOrderedListButtonClick.bind(this)}/>
         </div>
         <div className="menu-category">
-          <MenuItem type="image" iconSource={imageIcon} onClick={this.onBoldClick.bind(this)}/>
+          <MenuItem type="image" iconSource={imageIcon} onClick={() => console.log("A implementar")}/>
           <MenuItem type="math" iconSource={mathIcon} onClick={this.onNewMathEquationClick.bind(this)}/>
-          <MenuItem type="code" iconSource={codeIcon} onClick={this.onBoldClick.bind(this)}/>
+          <MenuItem type="code" iconSource={codeIcon} onClick={() => console.log("A implementar")}/>
         </div>
       </div>
     );
