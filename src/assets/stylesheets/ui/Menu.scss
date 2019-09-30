@@ -13,5 +13,11 @@
     #file-upload {
       display: none;
     }
+
+    .menu-button, .menu-toogle-button {
+      cursor: pointer;
+      padding: 0 10px;
+      fill: rgba(44, 62, 80, 1);
+    }
   }
 }

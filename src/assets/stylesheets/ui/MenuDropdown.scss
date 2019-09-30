@@ -1,0 +1,32 @@
+@import '../colors';
+
+.menu-dropdown-button {
+  .menu-dropdown-selector {
+    position: relative;
+    display: flex;
+  
+    .selected-dropdown-button {
+      padding-right: 5px !important;
+    }
+  
+    .dropdown-button-selector {
+      padding-left: 0 !important;
+    }
+  }
+
+  .menu-dropdown-options {
+    background: black;
+    display: inline-block;
+    position: absolute;
+    top: 35px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    justify-items: center;
+
+    .dropdown-option {
+      color: white;
+      padding: 5px 10px;
+    }
+  }
+
+}

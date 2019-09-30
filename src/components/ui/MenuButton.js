@@ -8,23 +8,21 @@ class MenuButton extends Component {
   }
 
   render() {
-    const { SVG, size, isEnabled } = this.props;
+    const { SVG, addToClass, isEnabled } = this.props;
+    const size = this.props.size || MenuButton.DEFAULT_BUTTON_SIZE;
+    const className = `menu-button ${addToClass}`;
 
     return (
-      <div className="mio-menu-button" onClick={this.onClickIfEnable.bind(this)}>
+      <div className={className} onClick={this.onClickIfEnable.bind(this)}>
         <SVG style={getStyle(size, isEnabled)}/>
       </div>
     );
   }
 }
 
-const getStyle = (size, isEnabled) => ({...defaultStyle, ...getSizeStyle(size), ...getStatusStyle(isEnabled)});
+MenuButton.DEFAULT_BUTTON_SIZE = 20;
 
-const defaultStyle = {
-  cursor: 'pointer',
-  padding: '0 10px',
-  fill: 'rgba(44, 62, 80, 1)'
-}
+const getStyle = (size, isEnabled) => ({...getSizeStyle(size), ...getStatusStyle(isEnabled)});
 
 const getSizeStyle = size => ({
   width: `${size}px`,

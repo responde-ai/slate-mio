@@ -8,10 +8,11 @@ class ToggleButton extends Component {
   }
 
   render() {
-    const { SVG, size, status } = this.props;
+    const { SVG, status } = this.props;
+    const size = this.props.size || ToggleButton.DEFAULT_BUTTON_SIZE;
 
     return (
-      <div className="mio-menu-toogle-button" onClick={this.onClickIfEnable.bind(this)}>
+      <div className="menu-toogle-button" onClick={this.onClickIfEnable.bind(this)}>
         <SVG style={getStyle(size, status)}/>
       </div>
     );
@@ -21,14 +22,9 @@ class ToggleButton extends Component {
 ToggleButton.DEFAULT_STATUS = 'DEFAULT_STATUS';
 ToggleButton.TOGGLED_STATUS = 'TOGGLED_STATUS';
 ToggleButton.DISABLED_STATUS = 'DISABLED_STATUS';
+ToggleButton.DEFAULT_BUTTON_SIZE = 20;
 
-const getStyle = (size, status) => ({...defaultStyle, ...getSizeStyle(size), ...getStatusStyle(status)});
-
-const defaultStyle = {
-  cursor: 'pointer',
-  padding: '0 10px',
-  fill: 'rgba(44, 62, 80, 0.8)'
-}
+const getStyle = (size, status) => ({...getSizeStyle(size), ...getStatusStyle(status)});
 
 const getSizeStyle = size => ({
   width: `${size}px`,

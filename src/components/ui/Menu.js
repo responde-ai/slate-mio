@@ -14,10 +14,14 @@ import { ReactComponent as oListSVG } from '../../assets/icons/list-ol-icon.svg'
 
 import { ReactComponent as ImageSVG } from '../../assets/icons/image-icon.svg';
 import { ReactComponent as MathSVG } from '../../assets/icons/math-icon.svg';
-import { ReactComponent as codeSVG } from '../../assets/icons/code-icon.svg';
+
+import { ReactComponent as pythonSVG } from '../../assets/icons/python-icon.svg';
+import { ReactComponent as cSVG } from '../../assets/icons/c-icon.svg';
+import { ReactComponent as jsSVG } from '../../assets/icons/js-icon.svg';
+import { ReactComponent as rubySVG } from '../../assets/icons/ruby-icon.svg';
 
 import '../../assets/stylesheets/ui/Menu.scss';
-import MenuItem from '../MenuItem';
+import MenuDropdown from './MenuDropdown';
 
 class Menu extends Component {
   toggleMark(type){
@@ -59,31 +63,26 @@ class Menu extends Component {
         <div className="menu-category">
           <ToggleButton
             SVG={HeadingSVG}
-            size={20}
             status={getHeadingStatus(editorValue)}
             onClick={this.onHeadingClick.bind(this)}
           />
           <ToggleButton
             SVG={BoldSVG}
-            size={20}
             status={getToggleButtonStatus("bold", editorValue)}
             onClick={this.toggleMark("bold")}
           />
           <ToggleButton
             SVG={ItalicSVG}
-            size={20}
             status={getToggleButtonStatus("italic", editorValue)}
             onClick={this.toggleMark("italic")}
           />
           <ToggleButton
             SVG={UnderlineSVG}
-            size={20}
             status={getToggleButtonStatus("underline", editorValue)}
             onClick={this.toggleMark("underline")}
           />
           <ToggleButton
             SVG={StrikethroughSVG}
-            size={20}
             status={getToggleButtonStatus("strikethrough", editorValue)}
             onClick={this.toggleMark("strikethrough")}
           />
@@ -91,13 +90,11 @@ class Menu extends Component {
         <div className="menu-category">
           <MenuButton
             SVG={uListSVG}
-            size={20}
             isEnabled={isAnMarkableBlock(editorValue)}
             onClick={this.onListButtonClick("unordered-list").bind(this)}
           />
           <MenuButton
             SVG={oListSVG}
-            size={20}
             isEnabled={isAnMarkableBlock(editorValue)}
             onClick={this.onListButtonClick("ordered-list").bind(this)}
           />
@@ -112,22 +109,41 @@ class Menu extends Component {
           />
           <MenuButton 
             SVG={ImageSVG}
-            size={20}
             isEnabled={isAnMarkableBlock(editorValue)}
             onClick={event => this.upload.click(event)}
           />
           <MenuButton 
             SVG={MathSVG}
-            size={20}
             isEnabled={isAnMarkableBlock(editorValue)}
             onClick={this.onNewMathEquationClick.bind(this)}
           />
-          {/* <MenuItem type="code" iconSource={codeIcon} onClick={() => console.log("A implementar")}/> */}
+          <MenuDropdown
+            schema={dropdownButtonsSchema}
+          />
         </div>
       </div>
     );
   }
 };
+
+const dropdownButtonsSchema = [
+  {
+    SVG: pythonSVG,
+    onClick: () => console.log("a Implementar")
+  },
+  {
+    SVG: cSVG,
+    onClick: () => console.log("a Implementar")
+  },
+  {
+    SVG: jsSVG,
+    onClick: () => console.log("a Implementar")
+  },
+  {
+    SVG: rubySVG,
+    onClick: () => console.log("a Implementar")
+  }
+];
 
 const getHeadingStatus = value => {
   if (isBlockOfType("heading", value)) return ToggleButton.TOGGLED_STATUS;
