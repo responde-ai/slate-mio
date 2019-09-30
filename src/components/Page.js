@@ -8,18 +8,8 @@ import renderDecoration from '../slate/decorations';
 import '../assets/stylesheets/Page.scss';
 
 class Page extends Component {
-  toggleBlock({ type }) {
-    this.ref.toggleBlock(type);
-    this.ref.focus();
-  }
-
-  toggleMark({ type }) {
-    this.ref.toggleMark(type);
-    this.ref.focus();
-  }
-
-  toggleList(payload) {
-    this.ref.toggleList(payload);
+  sendCommandToEditor(command, arg) {
+    this.ref[command](arg);
     this.ref.focus();
   }
   
@@ -50,11 +40,14 @@ class Page extends Component {
   }
 
   setEventListeners() {
-    this.props.emitter.on('toggleBlock', this.toggleBlock.bind(this));
-    this.props.emitter.on('toggleMark', this.toggleMark.bind(this));
-    this.props.emitter.on('toggleList', this.toggleList.bind(this));
-    this.props.emitter.on('updateMathEquation', this.updateMathBlock.bind(this));
-    this.props.emitter.on('createMathEquation', this.createMathBlock.bind(this));
+    const { emitter } = this.props;
+
+    emitter.on('toggleBlock', payload => this.sendCommandToEditor('toggleBlock', payload.type));
+    emitter.on('toggleMark', payload => this.sendCommandToEditor('toggleMark', payload.type));
+    emitter.on('toggleList', payload => this.sendCommandToEditor('toggleList', payload));
+    emitter.on('uploadImage', payload => this.sendCommandToEditor('insertImageFromFile', payload.file));
+    emitter.on('updateMathEquation', this.updateMathBlock.bind(this));
+    emitter.on('createMathEquation', this.createMathBlock.bind(this));
   }
 
   onClick(event){

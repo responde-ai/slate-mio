@@ -12,7 +12,7 @@ import { ReactComponent as StrikethroughSVG } from '../../assets/icons/strikethr
 import { ReactComponent as uListSVG } from '../../assets/icons/list-ul-icon.svg';
 import { ReactComponent as oListSVG } from '../../assets/icons/list-ol-icon.svg';
 
-import imageIcon from '../../assets/icons/image-icon.svg';
+import { ReactComponent as ImageSVG } from '../../assets/icons/image-icon.svg';
 import mathIcon from '../../assets/icons/math-icon.svg';
 import codeIcon from '../../assets/icons/code-icon.svg';
 
@@ -25,6 +25,13 @@ class Menu extends Component {
       event.preventDefault();
       this.props.emitter.emit('toggleMark', { type });
     }
+  }
+
+  uploadImage(event){
+    if (event.target.files.length === 0) return; 
+    
+    const file = event.target.files[0];
+    this.props.emitter.emit('uploadImage', { file });
   }
 
   onHeadingClick(event) {
@@ -96,8 +103,25 @@ class Menu extends Component {
           />
         </div>
         <div className="menu-category">
-          <MenuItem type="image" iconSource={imageIcon} onClick={() => console.log("A implementar")}/>
-          <MenuItem type="math" iconSource={mathIcon} onClick={this.onNewMathEquationClick.bind(this)}/>
+          <input
+            id="file-upload"
+            type="file"
+            accept="image/png, image/jpeg"
+            ref={ref => this.upload = ref}
+            onChange={this.uploadImage.bind(this)}
+          />
+          <MenuButton 
+            SVG={ImageSVG}
+            size={20}
+            isEnabled={isAnMarkableBlock(editorValue)}
+            onClick={event => this.upload.click(event)}
+          />
+          <MenuButton 
+            SVG={}
+            size={20}
+            isEnabled={isAnMarkableBlock(editorValue)}
+            onClick={this.onNewMathEquationClick.bind(this)}
+          />
           <MenuItem type="code" iconSource={codeIcon} onClick={() => console.log("A implementar")}/>
         </div>
       </div>
