@@ -9,13 +9,17 @@ import '../assets/stylesheets/Page.scss';
 
 class Page extends Component {
   toggleBlock({ type }) {
-    console.log(type);
     this.ref.toggleBlock(type);
     this.ref.focus();
   }
 
   toggleMark({ type }) {
     this.ref.toggleMark(type);
+    this.ref.focus();
+  }
+
+  toggleList(payload) {
+    this.ref.toggleList(payload);
     this.ref.focus();
   }
   
@@ -48,6 +52,7 @@ class Page extends Component {
   setEventListeners() {
     this.props.emitter.on('toggleBlock', this.toggleBlock.bind(this));
     this.props.emitter.on('toggleMark', this.toggleMark.bind(this));
+    this.props.emitter.on('toggleList', this.toggleList.bind(this));
     this.props.emitter.on('updateMathEquation', this.updateMathBlock.bind(this));
     this.props.emitter.on('createMathEquation', this.createMathBlock.bind(this));
   }

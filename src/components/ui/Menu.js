@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import ToggleButton from './ToggleButton';
+import MenuButton from './MenuButton';
 
 import { ReactComponent as HeadingSVG } from '../../assets/icons/title-icon.svg';
 import { ReactComponent as BoldSVG } from '../../assets/icons/bold-icon.svg';
@@ -8,8 +9,8 @@ import { ReactComponent as ItalicSVG } from '../../assets/icons/italic-icon.svg'
 import { ReactComponent as UnderlineSVG } from '../../assets/icons/underline-icon.svg';
 import { ReactComponent as StrikethroughSVG } from '../../assets/icons/strikethrough-icon.svg';
 
-import uList from '../../assets/icons/list-ul-icon.svg';
-import oList from '../../assets/icons/list-ol-icon.svg';
+import { ReactComponent as uListSVG } from '../../assets/icons/list-ul-icon.svg';
+import { ReactComponent as oListSVG } from '../../assets/icons/list-ol-icon.svg';
 
 import imageIcon from '../../assets/icons/image-icon.svg';
 import mathIcon from '../../assets/icons/math-icon.svg';
@@ -31,14 +32,11 @@ class Menu extends Component {
     this.props.emitter.emit('toggleBlock', { type: 'heading' });
   }
 
-  onUnorderedListButtonClick(event) {
-    event.preventDefault();
-    this.props.editorRef.current.toggleList();
-  }
-
-  onOrderedListButtonClick(event) {
-    event.preventDefault();
-    this.props.editorRef.current.toggleList({ type: "ordered-list" });
+  onListButtonClick(type) {
+    return event => {
+      event.preventDefault();
+      this.props.emitter.emit('toggleList', { type });
+    }
   }
 
   onNewMathEquationClick(event) {
@@ -84,8 +82,18 @@ class Menu extends Component {
           />
         </div>
         <div className="menu-category">
-          <MenuItem type="unordered-list" iconSource={uList} onClick={this.onUnorderedListButtonClick.bind(this)}/>
-          <MenuItem type="ordered-list" iconSource={oList} onClick={this.onOrderedListButtonClick.bind(this)}/>
+          <MenuButton
+            SVG={uListSVG}
+            size={20}
+            isEnabled={isAnMarkableBlock(editorValue)}
+            onClick={this.onListButtonClick("unordered-list").bind(this)}
+          />
+          <MenuButton
+            SVG={oListSVG}
+            size={20}
+            isEnabled={isAnMarkableBlock(editorValue)}
+            onClick={this.onListButtonClick("ordered-list").bind(this)}
+          />
         </div>
         <div className="menu-category">
           <MenuItem type="image" iconSource={imageIcon} onClick={() => console.log("A implementar")}/>
