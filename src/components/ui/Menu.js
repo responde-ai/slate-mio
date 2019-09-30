@@ -13,8 +13,8 @@ import { ReactComponent as uListSVG } from '../../assets/icons/list-ul-icon.svg'
 import { ReactComponent as oListSVG } from '../../assets/icons/list-ol-icon.svg';
 
 import { ReactComponent as ImageSVG } from '../../assets/icons/image-icon.svg';
-import mathIcon from '../../assets/icons/math-icon.svg';
-import codeIcon from '../../assets/icons/code-icon.svg';
+import { ReactComponent as MathSVG } from '../../assets/icons/math-icon.svg';
+import { ReactComponent as codeSVG } from '../../assets/icons/code-icon.svg';
 
 import '../../assets/stylesheets/ui/Menu.scss';
 import MenuItem from '../MenuItem';
@@ -117,12 +117,12 @@ class Menu extends Component {
             onClick={event => this.upload.click(event)}
           />
           <MenuButton 
-            SVG={}
+            SVG={MathSVG}
             size={20}
             isEnabled={isAnMarkableBlock(editorValue)}
             onClick={this.onNewMathEquationClick.bind(this)}
           />
-          <MenuItem type="code" iconSource={codeIcon} onClick={() => console.log("A implementar")}/>
+          {/* <MenuItem type="code" iconSource={codeIcon} onClick={() => console.log("A implementar")}/> */}
         </div>
       </div>
     );
