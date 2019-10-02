@@ -56,7 +56,7 @@ class Menu extends Component {
   }
 
   render() {
-    const { editorValue } = this.props;
+    const { editorValue, emitter } = this.props;
 
     return (
       <div className="menu-container">
@@ -118,7 +118,7 @@ class Menu extends Component {
             onClick={this.onNewMathEquationClick.bind(this)}
           />
           <MenuDropdown
-            schema={dropdownButtonsSchema}
+            schema={dropdownButtonsSchema(emitter)}
           />
         </div>
       </div>
@@ -126,24 +126,29 @@ class Menu extends Component {
   }
 };
 
-const dropdownButtonsSchema = [
+const dropdownButtonsSchema = emitter => [
   {
     SVG: pythonSVG,
-    onClick: () => console.log("a Implementar")
+    onClick: onCodeClickBase(emitter, 'py')
   },
   {
     SVG: cSVG,
-    onClick: () => console.log("a Implementar")
+    onClick: onCodeClickBase(emitter, 'clike')
   },
   {
     SVG: jsSVG,
-    onClick: () => console.log("a Implementar")
+    onClick: onCodeClickBase(emitter, 'js')
   },
   {
     SVG: rubySVG,
-    onClick: () => console.log("a Implementar")
+    onClick: onCodeClickBase(emitter, 'rb')
   }
 ];
+
+const onCodeClickBase = (emitter, language) => event => {
+  event.preventDefault();
+  emitter.emit('insertBlock', { type: 'code', data: { language } })
+}
 
 const getHeadingStatus = value => {
   if (isBlockOfType("heading", value)) return ToggleButton.TOGGLED_STATUS;

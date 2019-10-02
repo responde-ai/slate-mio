@@ -9,12 +9,14 @@ class MenuButton extends Component {
 
   render() {
     const { SVG, addToClass, isEnabled } = this.props;
+    const customStyle = this.props.customStyle || {};
+
     const size = this.props.size || MenuButton.DEFAULT_BUTTON_SIZE;
     const className = `menu-button ${addToClass}`;
 
     return (
       <div className={className} onClick={this.onClickIfEnable.bind(this)}>
-        <SVG style={getStyle(size, isEnabled)}/>
+        <SVG style={getStyle(size, isEnabled, customStyle)}/>
       </div>
     );
   }
@@ -22,7 +24,7 @@ class MenuButton extends Component {
 
 MenuButton.DEFAULT_BUTTON_SIZE = 20;
 
-const getStyle = (size, isEnabled) => ({...getSizeStyle(size), ...getStatusStyle(isEnabled)});
+const getStyle = (size, isEnabled, customStyle) => ({...getSizeStyle(size), ...getStatusStyle(isEnabled), ...customStyle});
 
 const getSizeStyle = size => ({
   width: `${size}px`,

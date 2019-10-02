@@ -1,6 +1,8 @@
 @import '../colors';
 
 .menu-dropdown-button {
+  position: relative;
+
   .menu-dropdown-selector {
     position: relative;
     display: flex;
@@ -19,7 +21,9 @@
     display: inline-block;
     position: absolute;
     top: 35px;
+    left: 50%;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    transform: translateX(-50%);
     border-radius: 5px;
     justify-items: center;
 

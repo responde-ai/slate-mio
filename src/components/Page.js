@@ -42,6 +42,7 @@ class Page extends Component {
   setEventListeners() {
     const { emitter } = this.props;
 
+    emitter.on('insertBlock', payload => this.sendCommandToEditor('insertBlock', payload));
     emitter.on('toggleBlock', payload => this.sendCommandToEditor('toggleBlock', payload.type));
     emitter.on('toggleMark', payload => this.sendCommandToEditor('toggleMark', payload.type));
     emitter.on('toggleList', payload => this.sendCommandToEditor('toggleList', payload));

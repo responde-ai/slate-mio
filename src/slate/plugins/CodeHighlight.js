@@ -1,4 +1,6 @@
 import Prism from 'prismjs';
+import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-ruby';
 
 const _getContent = token => {
   if (typeof token === 'string') return token;

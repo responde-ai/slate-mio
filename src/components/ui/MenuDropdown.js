@@ -8,7 +8,7 @@ import '../../assets/stylesheets/ui/MenuDropdown.scss';
 class MenuDropdown extends Component {
   constructor(props) {
     super(props);
-    this.state = { selectedIndex: 0 };
+    this.state = { selectedIndex: 0, isExpanded: false };
   }
 
   renderDropdownMenuOptionButtons() {
@@ -20,7 +20,7 @@ class MenuDropdown extends Component {
         isEnabled={true}
         SVG={optionsProps.SVG}
         onClick={event => {
-          this.setState({selectedIndex: index });
+          this.setState({selectedIndex: index, isExpanded: false });
           optionsProps.onClick(event);
         }}
       />
@@ -29,7 +29,7 @@ class MenuDropdown extends Component {
 
   render() {
     const { schema } = this.props;
-    const { selectedIndex }= this.state;
+    const { selectedIndex, isExpanded }= this.state;
 
     return (
       <div className="menu-dropdown-button">
@@ -41,19 +41,22 @@ class MenuDropdown extends Component {
           />
           <MenuButton
             addToClass="dropdown-button-selector"
+            customStyle={getSelectorStyle(isExpanded)}
             SVG={ArrowSVG}
             size={10}
             isEnabled={true}
-            onClick={() => console.log("deveria expandir...")}
+            onClick={() => this.setState({ isExpanded: !isExpanded })}
           />
         </div>
         <div className="menu-dropdown-options">
-          {this.renderDropdownMenuOptionButtons()}
+          {isExpanded && this.renderDropdownMenuOptionButtons()}
         </div>
       </div>
     );
   }
 }
+
+const getSelectorStyle = isExpanded => (isExpanded ? {transform: 'rotate(180deg)'} : {});
 
 
 

@@ -42,7 +42,7 @@ class App extends Component {
 
   onEditorValueChange({ value }) {
     console.log(value.toJSON());
-    this.setState({editorValue : value });
+    this.setState({ editorValue : value });
   }
 
   componentDidMount(){
