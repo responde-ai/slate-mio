@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { updateMenuState } from '../../actions';
-
 import boldIcon from '../../assets/icons/bold-icon.svg';
 import italicIcon from '../../assets/icons/italic-icon.svg';
 import underlineIcon from '../../assets/icons/underline-icon.svg';
@@ -13,9 +9,19 @@ import '../../assets/stylesheets/PopUpMenu.scss';
 import MenuItem from '../MenuItem';
 
 class PopUpMenu extends Component {
-  mouseOnMenu = false;
-  updatingFromMenu = false;
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      mouseOnMenu: false,
+      style: {
+        display: 'none',
+        top: 0,
+        left: 0,
+      }
+    };
+  }
+  
   updateMenu(){
     if(!this.menuRef) return;
     if (this.updatingFromMenu){
@@ -28,15 +34,11 @@ class PopUpMenu extends Component {
   }
 
   hideMenu(){
-    this.props.updateMenuState(this.getNewHidestyle());
+    this.setState({ style: this.getNewHidestyle() });
   }
 
   showMenu(){
-    this.props.updateMenuState(this.getNewShowStyle());
-  }
-
-  updateMenuStyle(){
-    this.props.updateMenuState(this.getNewShowStyle());
+    this.setState({ style: this.getNewShowStyle() });
   }
 
   isInvalidSelection(){
@@ -51,7 +53,7 @@ class PopUpMenu extends Component {
   isSelectionBlurredOutOfMenu(){
     const selection = this.props.editorValue.selection;
 
-    return !this.mouseOnMenu && selection.isBlurred;
+    return !this.state.mouseOnMenu && selection.isBlurred;
   }
 
   getNewHidestyle(){
@@ -85,27 +87,19 @@ class PopUpMenu extends Component {
     return this.menuRef.offsetWidth;
   }
 
-  getEditor(){
-    return this.props.editorRef.current;
-  }
-
   toggleMark(type){
     return event => {
-      const editor = this.getEditor();
-
       event.preventDefault();
-      editor.toggleMark(type);
-      editor.focus();
-      this.updatingFromMenu = true;
+      this.props.emitter.emit('toggleMark', { type });
     }
   }
 
-  onMouseEnter(event){
-    this.mouseOnMenu = true;
+  onMouseEnter() {
+    this.setState({mouseOnMenu: true});
   }
 
-  onMouseLeave(event){
-    this.mouseOnMenu = false;
+  onMouseLeave() {
+    this.setState({mouseOnMenu: false});
   }
 
   componentDidUpdate(prevProps){
@@ -116,7 +110,7 @@ class PopUpMenu extends Component {
     return (
       <div
         className="mio-menu"
-        style={this.props.menuStyle}
+        style={this.state.style}
         ref={ref => this.menuRef = ref}
         onMouseEnter={this.onMouseEnter.bind(this)}
         onMouseLeave={this.onMouseLeave.bind(this)}
@@ -160,13 +154,4 @@ const getScrollAlongXAxis = () => {
   return window.pageXOffset;
 }
 
-const mapStateToProps = store => ({
-  editorValue: store.editorState.value,
-  menuStyle: store.menuState.style,
-});
-
-const mapDispatchToProps = dispatch => (
-  bindActionCreators({ updateMenuState }, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(PopUpMenu);
+export default PopUpMenu;

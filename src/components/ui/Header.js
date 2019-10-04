@@ -24,6 +24,8 @@ class Header extends Component {
   }
 
   render() {
+    const { editorValue, emitter } = this.props;
+
     return (
     <div className="header-container">
       <MenuItem
@@ -35,7 +37,7 @@ class Header extends Component {
       />
       <div className="input-menu-wrapper">
         <DocumentTitle value={this.state.documentTitle} onTextChange={this.onDocumentTitleChange.bind(this)}/>
-        <Menu editorRef={this.props.editorRef}/>
+        <Menu editorValue={editorValue} emitter={emitter} />
       </div>
     </div>
     );

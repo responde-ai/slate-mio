@@ -19,8 +19,10 @@ class CodeBlock extends Component {
           style={{ position: 'absolute', top: '5px', right: '5px' }}
         >
           <select value={language} onChange={this.onChange.bind(this)}>
-            <option value="css">CSS</option>
+            <option value="py">python</option>
+            <option value="c">C</option>
             <option value="js">javascript</option>
+            <option value="rb">ruby</option>
           </select>
         </div>
       </div>

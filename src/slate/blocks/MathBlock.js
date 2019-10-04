@@ -1,26 +1,18 @@
 import React, { Component } from 'react';
 import MathEquation from '../../components/generic/MathEquation';
 
-import { editMathEquation } from '../../actions';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-
 class MathBlock extends Component {
   constructor(props) {
     super(props);
     this.state = {
       onFocus: false,
     }
-
-    this.ref = React.createRef();
   }
 
   openEditor() {
-    this.props.editMathEquation({
-      shouldShow: true,
-      mathContent: this.getMathContent(),
-      selectedMathBlock: this.ref.current,
+    this.props.emitter.emit('showMathEditor', {
+      mathEditorInitialContent: this.getMathContent(),
+      selectedMathBlock: this.ref
     });
   }
 
@@ -38,8 +30,6 @@ class MathBlock extends Component {
   }
 
   onOutSideClick(event){
-    if (this.state.isEditing) return;
-
     const container = this.ref.current;
     const target = event.target;
 
@@ -69,7 +59,7 @@ class MathBlock extends Component {
         {...attributes}
         style={getStyle(this.state.onFocus)}
         onClick={this.onClick.bind(this)}
-        ref={this.ref}
+        ref={ref => this.ref = ref}
       >
         <MathEquation content={mathContent}></MathEquation>
       </div>
@@ -79,13 +69,4 @@ class MathBlock extends Component {
 
 const getStyle = onFocus => onFocus ? { boxShadow: '0 0 5px rgba(81, 203, 238, 1)' } : {};
 
-const mapStateToProps = store => ({
-  appCurrentMathContent: store.mathEditorState.mathContent,
-  selectedMathBlock: store.mathEditorState.selectedMathBlock,
-});
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  editMathEquation,
-}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(MathBlock);
+export default MathBlock;

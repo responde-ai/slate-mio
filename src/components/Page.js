@@ -5,96 +5,79 @@ import renderMark from '../slate/marks';
 import renderBlock from '../slate/blocks';
 import renderDecoration from '../slate/decorations';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import {
-  updateEditorState,
-  onEditorKeyUp,
-  onEditorClick
-} from '../actions';
-
 import '../assets/stylesheets/Page.scss';
 
 class Page extends Component {
-  onChange = ({ value }) => {
-    console.log(value.toJSON());
-    this.props.updateEditorState(value);
+  sendCommandToEditor(command, arg) {
+    this.ref[command](arg);
+    this.ref.focus();
+  }
+  
+  updateOrCreateMathBlock(action, payload) {
+    if (!this.ref) return;
+
+    const blockProps = {
+      type: 'math',
+      data: { content: payload.mathContent }
+    };
+
+    this.ref.focus();
+
+    if (action === 'update') {
+      const nodeKey = payload.selectedMathBlock.dataset.key;
+      this.ref.setNodeByKey(nodeKey, blockProps);
+    } else this.ref.insertBlock(blockProps);
+
+    setTimeout(() => this.props.emitter.emit('closeMathEditor'), 0);  
   }
 
-  updateOrCreateMathBlock() {
-    const selectedMathBlock = this.props.selectedMathBlock;
-
-    if (selectedMathBlock) return this.updateMathBlock(selectedMathBlock);
-    this.createMathBlock()
+  updateMathBlock(payload) {
+    this.updateOrCreateMathBlock("update", payload);
   }
 
-  updateMathBlock(selectedMathBlock) {
-    const mathContent = this.props.mathContent;
-
-    this.props.editorRef.current.setNodeByKey(selectedMathBlock.dataset.key, {
-      type: "math",
-      data: { content: mathContent }
-    });
+  createMathBlock(payload) {
+    this.updateOrCreateMathBlock("create", payload);
   }
 
-  createMathBlock() {
-    const mathContent = this.props.mathContent;
+  setEventListeners() {
+    const { emitter } = this.props;
 
-    this.props.editorRef.current.insertBlock({
-      type: "math",
-      data: { content: mathContent }
-      });
-  }
-
-  shouldUpdateOrCreateMathBlock(prevProps){
-    return this.props.mathContent !== prevProps.mathContent;
-  }
-
-  onKeyUp(event){
-    this.props.onEditorKeyUp(event.keyCode);
+    emitter.on('insertBlock', payload => this.sendCommandToEditor('insertBlock', payload));
+    emitter.on('toggleBlock', payload => this.sendCommandToEditor('toggleBlock', payload.type));
+    emitter.on('toggleMark', payload => this.sendCommandToEditor('toggleMark', payload.type));
+    emitter.on('toggleList', payload => this.sendCommandToEditor('toggleList', payload));
+    emitter.on('uploadImage', payload => this.sendCommandToEditor('insertImageFromFile', payload.file));
+    emitter.on('updateMathEquation', this.updateMathBlock.bind(this));
+    emitter.on('createMathEquation', this.createMathBlock.bind(this));
   }
 
   onClick(event){
-    this.props.onEditorClick({ x: event.clientX, y: event.clientY });
+    this.props.emitter.emit('onEditorClick', { x: event.clientX, y: event.clientY })
   }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.shouldUpdateOrCreateMathBlock(prevProps)) this.updateOrCreateMathBlock();
+  
+  componentDidMount() {
+    this.setEventListeners();
   }
 
   render(){
-    const { editorValue } = this.props;
+    const { editorValue, onEditorValueChange, emitter } = this.props;
 
     return (
       <div className="mio-page">
         <Editor
-          onKeyUp={this.onKeyUp.bind(this)}
           onClick={this.onClick.bind(this)}
           plugins={plugins}
           value={editorValue}
-          onChange={this.onChange}
+          onChange={onEditorValueChange}
           renderMark={renderMark}
           renderBlock={renderBlock}
           renderDecoration={renderDecoration}
-          ref={this.props.editorRef}
+          emitter={emitter}
+          ref={ref => this.ref = ref}
         />
       </div>
     );
   }
 }
 
-const mapStateToProps = store => ({
-  editorValue: store.editorState.value,
-  mathContent: store.mathEditorState.mathContent,
-  selectedMathBlock: store.mathEditorState.selectedMathBlock,
-});
-
-const mapDispatchToProps = dispatch => (
-  bindActionCreators({
-    updateEditorState,
-    onEditorKeyUp,
-    onEditorClick,
-  }, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Page);
+export default Page;
