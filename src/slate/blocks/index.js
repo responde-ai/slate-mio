@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from './Header';
+import Heading from './Heading';
 import Image from './Image';
 import CodeBlock from './CodeBlock';
 import CodeLineBlock from './CodeBlockLine';
@@ -7,8 +7,8 @@ import MathBlock from './MathBlock'
 
 const renderBlock = (props, editor, next) => {
   switch (props.node.type) {
-    case 'header':
-      return <Header {...props}/>;
+    case 'heading':
+      return <Heading {...props}/>;
     case 'image':
       return <Image {...props}/>;
     case 'code':

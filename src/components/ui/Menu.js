@@ -1,34 +1,53 @@
 import React, { Component } from 'react';
 
-import headingIcon from '../../assets/icons/title-icon.svg';
-import boldIcon from '../../assets/icons/bold-icon-black.svg';
-import italicIcon from '../../assets/icons/italic-icon-black.svg';
-import underlineIcon from '../../assets/icons/underline-icon-black.svg';
-import strikethroughIcon from '../../assets/icons/strikethrough-icon-black.svg';
+import ToggleButton from './ToggleButton';
+import MenuButton from './MenuButton';
 
-import uList from '../../assets/icons/list-ul-icon.svg';
-import oList from '../../assets/icons/list-ol-icon.svg';
+import { ReactComponent as HeadingSVG } from '../../assets/icons/title-icon.svg';
+import { ReactComponent as BoldSVG } from '../../assets/icons/bold-icon.svg';
+import { ReactComponent as ItalicSVG } from '../../assets/icons/italic-icon.svg';
+import { ReactComponent as UnderlineSVG } from '../../assets/icons/underline-icon.svg';
+import { ReactComponent as StrikethroughSVG } from '../../assets/icons/strikethrough-icon.svg';
 
-import imageIcon from '../../assets/icons/image-icon.svg';
-import mathIcon from '../../assets/icons/math-icon.svg';
-import codeIcon from '../../assets/icons/code-icon.svg';
+import { ReactComponent as uListSVG } from '../../assets/icons/list-ul-icon.svg';
+import { ReactComponent as oListSVG } from '../../assets/icons/list-ol-icon.svg';
+
+import { ReactComponent as ImageSVG } from '../../assets/icons/image-icon.svg';
+import { ReactComponent as MathSVG } from '../../assets/icons/math-icon.svg';
+
+import { ReactComponent as pythonSVG } from '../../assets/icons/python-icon.svg';
+import { ReactComponent as cSVG } from '../../assets/icons/c-icon.svg';
+import { ReactComponent as jsSVG } from '../../assets/icons/js-icon.svg';
+import { ReactComponent as rubySVG } from '../../assets/icons/ruby-icon.svg';
 
 import '../../assets/stylesheets/ui/Menu.scss';
-import MenuItem from '../MenuItem';
+import MenuDropdown from './MenuDropdown';
 
 class Menu extends Component {
-  onBoldClick() {
-    console.log("opa!");
+  toggleMark(type){
+    return event => {
+      event.preventDefault();
+      this.props.emitter.emit('toggleMark', { type });
+    }
   }
 
-  onUnorderedListButtonClick(event) {
-    event.preventDefault();
-    this.props.editorRef.current.toggleList();
+  uploadImage(event){
+    if (event.target.files.length === 0) return; 
+    
+    const file = event.target.files[0];
+    this.props.emitter.emit('uploadImage', { file });
   }
 
-  onOrderedListButtonClick(event) {
+  onHeadingClick(event) {
     event.preventDefault();
-    this.props.editorRef.current.toggleList({ type: "ordered-list" });
+    this.props.emitter.emit('toggleBlock', { type: 'heading' });
+  }
+
+  onListButtonClick(type) {
+    return event => {
+      event.preventDefault();
+      this.props.emitter.emit('toggleList', { type });
+    }
   }
 
   onNewMathEquationClick(event) {
@@ -37,27 +56,117 @@ class Menu extends Component {
   }
 
   render() {
+    const { editorValue, emitter } = this.props;
+
     return (
       <div className="menu-container">
         <div className="menu-category">
-          <MenuItem type="heading" iconSource={headingIcon} onClick={this.onBoldClick.bind(this)}/>
-          <MenuItem type="bold" iconSource={boldIcon} onClick={this.onBoldClick.bind(this)}/>
-          <MenuItem type="italic" iconSource={italicIcon} onClick={this.onBoldClick.bind(this)}/>
-          <MenuItem type="underline" iconSource={underlineIcon} onClick={this.onBoldClick.bind(this)}/>
-          <MenuItem type="strikethrough" iconSource={strikethroughIcon} onClick={this.onBoldClick.bind(this)}/>
+          <ToggleButton
+            SVG={HeadingSVG}
+            status={getHeadingStatus(editorValue)}
+            onClick={this.onHeadingClick.bind(this)}
+          />
+          <ToggleButton
+            SVG={BoldSVG}
+            status={getToggleButtonStatus("bold", editorValue)}
+            onClick={this.toggleMark("bold")}
+          />
+          <ToggleButton
+            SVG={ItalicSVG}
+            status={getToggleButtonStatus("italic", editorValue)}
+            onClick={this.toggleMark("italic")}
+          />
+          <ToggleButton
+            SVG={UnderlineSVG}
+            status={getToggleButtonStatus("underline", editorValue)}
+            onClick={this.toggleMark("underline")}
+          />
+          <ToggleButton
+            SVG={StrikethroughSVG}
+            status={getToggleButtonStatus("strikethrough", editorValue)}
+            onClick={this.toggleMark("strikethrough")}
+          />
         </div>
         <div className="menu-category">
-          <MenuItem type="unordered-list" iconSource={uList} onClick={this.onUnorderedListButtonClick.bind(this)}/>
-          <MenuItem type="ordered-list" iconSource={oList} onClick={this.onOrderedListButtonClick.bind(this)}/>
+          <MenuButton
+            SVG={uListSVG}
+            isEnabled={isAnMarkableBlock(editorValue)}
+            onClick={this.onListButtonClick("unordered-list").bind(this)}
+          />
+          <MenuButton
+            SVG={oListSVG}
+            isEnabled={isAnMarkableBlock(editorValue)}
+            onClick={this.onListButtonClick("ordered-list").bind(this)}
+          />
         </div>
         <div className="menu-category">
-          <MenuItem type="image" iconSource={imageIcon} onClick={this.onBoldClick.bind(this)}/>
-          <MenuItem type="math" iconSource={mathIcon} onClick={this.onNewMathEquationClick.bind(this)}/>
-          <MenuItem type="code" iconSource={codeIcon} onClick={this.onBoldClick.bind(this)}/>
+          <input
+            id="file-upload"
+            type="file"
+            accept="image/png, image/jpeg"
+            ref={ref => this.upload = ref}
+            onChange={this.uploadImage.bind(this)}
+          />
+          <MenuButton 
+            SVG={ImageSVG}
+            isEnabled={isAnMarkableBlock(editorValue)}
+            onClick={event => this.upload.click(event)}
+          />
+          <MenuButton 
+            SVG={MathSVG}
+            isEnabled={isAnMarkableBlock(editorValue)}
+            onClick={this.onNewMathEquationClick.bind(this)}
+          />
+          <MenuDropdown
+            schema={dropdownButtonsSchema(emitter)}
+          />
         </div>
       </div>
     );
   }
 };
+
+const dropdownButtonsSchema = emitter => [
+  {
+    SVG: pythonSVG,
+    onClick: onCodeClickBase(emitter, 'py')
+  },
+  {
+    SVG: cSVG,
+    onClick: onCodeClickBase(emitter, 'clike')
+  },
+  {
+    SVG: jsSVG,
+    onClick: onCodeClickBase(emitter, 'js')
+  },
+  {
+    SVG: rubySVG,
+    onClick: onCodeClickBase(emitter, 'rb')
+  }
+];
+
+const onCodeClickBase = (emitter, language) => event => {
+  event.preventDefault();
+  emitter.emit('insertBlock', { type: 'code', data: { language } })
+}
+
+const getHeadingStatus = value => {
+  if (isBlockOfType("heading", value)) return ToggleButton.TOGGLED_STATUS;
+  if (isBlockOfType("paragraph", value)) return ToggleButton.DEFAULT_STATUS;
+  return ToggleButton.DISABLED_STATUS;
+}
+
+const getToggleButtonStatus = (type, value) => {
+  if (isAnActiveMark(type, value)) return ToggleButton.TOGGLED_STATUS;
+  if (isAnMarkableBlock(value)) return ToggleButton.DEFAULT_STATUS;
+  return ToggleButton.DISABLED_STATUS;
+}
+
+const isAnActiveMark = (type, value) => value.activeMarks.some(mark => mark.type === type);
+
+const isBlockOfType = (type, value) => value.blocks.some(block => block.type === type);
+
+const isAnMarkableBlock = value => isBlockOfType('paragraph', value);
+
 
 export default Menu;
