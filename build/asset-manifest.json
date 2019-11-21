@@ -1,0 +1,33 @@
+{
+  "files": {
+    "main.css": "/slate-mio/static/css/main.120d6f03.chunk.css",
+    "main.js": "/slate-mio/static/js/main.4c7f0dc9.chunk.js",
+    "main.js.map": "/slate-mio/static/js/main.4c7f0dc9.chunk.js.map",
+    "runtime~main.js": "/slate-mio/static/js/runtime~main.47aa8b2a.js",
+    "runtime~main.js.map": "/slate-mio/static/js/runtime~main.47aa8b2a.js.map",
+    "static/js/2.a3ae4a0a.chunk.js": "/slate-mio/static/js/2.a3ae4a0a.chunk.js",
+    "static/js/2.a3ae4a0a.chunk.js.map": "/slate-mio/static/js/2.a3ae4a0a.chunk.js.map",
+    "index.html": "/slate-mio/index.html",
+    "precache-manifest.108c2d10b1b1ae45ab37553e062108a6.js": "/slate-mio/precache-manifest.108c2d10b1b1ae45ab37553e062108a6.js",
+    "service-worker.js": "/slate-mio/service-worker.js",
+    "static/css/main.120d6f03.chunk.css.map": "/slate-mio/static/css/main.120d6f03.chunk.css.map",
+    "static/media/arrow-down-icon.2c0862a6.svg": "/slate-mio/static/media/arrow-down-icon.2c0862a6.svg",
+    "static/media/bold-icon.svg": "/slate-mio/static/media/bold-icon.f50b201a.svg",
+    "static/media/c-icon.63a3df1d.svg": "/slate-mio/static/media/c-icon.63a3df1d.svg",
+    "static/media/close-icon.svg": "/slate-mio/static/media/close-icon.8c6b92e1.svg",
+    "static/media/file-icon.svg": "/slate-mio/static/media/file-icon.cf5e4039.svg",
+    "static/media/image-icon.205a8432.svg": "/slate-mio/static/media/image-icon.205a8432.svg",
+    "static/media/italic-icon.svg": "/slate-mio/static/media/italic-icon.7fd46e72.svg",
+    "static/media/js-icon.8db9cd68.svg": "/slate-mio/static/media/js-icon.8db9cd68.svg",
+    "static/media/list-ol-icon.a9e79322.svg": "/slate-mio/static/media/list-ol-icon.a9e79322.svg",
+    "static/media/list-ul-icon.97954a53.svg": "/slate-mio/static/media/list-ul-icon.97954a53.svg",
+    "static/media/loading-icon.svg": "/slate-mio/static/media/loading-icon.bd2da21d.svg",
+    "static/media/math-icon.36f03ff6.svg": "/slate-mio/static/media/math-icon.36f03ff6.svg",
+    "static/media/python-icon.7a4fa2fb.svg": "/slate-mio/static/media/python-icon.7a4fa2fb.svg",
+    "static/media/ruby-icon.23e2c5a8.svg": "/slate-mio/static/media/ruby-icon.23e2c5a8.svg",
+    "static/media/strikethrough-icon.svg": "/slate-mio/static/media/strikethrough-icon.64bb4a16.svg",
+    "static/media/submit-icon.svg": "/slate-mio/static/media/submit-icon.48aa0e98.svg",
+    "static/media/title-icon.c87393cb.svg": "/slate-mio/static/media/title-icon.c87393cb.svg",
+    "static/media/underline-icon.svg": "/slate-mio/static/media/underline-icon.cc647f2f.svg"
+  }
+}
